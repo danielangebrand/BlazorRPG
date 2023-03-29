@@ -1,0 +1,55 @@
+﻿@if (Movement != null)
+{
+<Row>
+    <Column Class="text-center">
+        <Blazorise.Button id="move-north-btn" Color="Color.Secondary" Margin="Margin.Is1"
+                Disabled="@(!Movement.CanMoveNorth)" Clicked="Movement.MoveNorth"
+                Style="width: 65px">
+            North
+        </Blazorise.Button>
+    </Column>
+</Row>
+<Row>
+    <Column Class="text-center">
+        <Blazorise.Button id="move-west-btn" Color="Color.Secondary" Margin="Margin.Is1"
+                Disabled="@(!Movement.CanMoveWest)" Clicked="Movement.MoveWest"
+                Style="width: 65px">
+            West
+        </Blazorise.Button>
+    </Column>
+    <Column Class="text-center">
+        <Blazorise.Button id="move-east-btn" Color="Color.Secondary" Margin="Margin.Is1"
+                Disabled="@(!Movement.CanMoveEast)" Clicked="Movement.MoveEast"
+                Style="width: 65px">
+            East
+        </Blazorise.Button>
+    </Column>
+</Row>
+<Row>
+    <Column Class="text-center">
+        <Blazorise.Button id="move-south-btn" Color="Color.Secondary" Margin="Margin.Is1"
+                Disabled="@(!Movement.CanMoveSouth)" Clicked="Movement.MoveSouth"
+                Style="width: 65px">
+            South
+        </Blazorise.Button>
+    </Column>
+</Row>
+}
+
+@code {
+    [Parameter]
+    public Movement? Movement { get; set; }
+    [Parameter]
+    public EventCallback<Location> LocationChanged
+    {
+        get => (Movement is null) ? default : Movement.LocationChanged;
+        set
+        {
+            if (Movement != null)
+            {
+                Movement.LocationChanged = value;
+            }    
+        }
+    }
+
+}

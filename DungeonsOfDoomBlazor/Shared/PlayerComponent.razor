@@ -1,0 +1,40 @@
+﻿@using DungeonsOfDoomBlazor.GameEngine.Models.Characters;
+<Table Borderless="true" Narrow="true">
+    <TableHeader>
+        <TableHeaderCell RowSpan="2">Player Data</TableHeaderCell>
+    </TableHeader>
+    <TableBody>
+        <TableRow>
+            <TableRowCell>Name:</TableRowCell>
+            <TableRowCell>@Player.Name</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Class:</TableRowCell>
+            <TableRowCell>@Player.CharacterClass</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Gender:</TableRowCell>
+            <TableRowCell>@Player.G.ToString()</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>Hit points:</TableRowCell>
+            <TableRowCell>@Player.Health</TableRowCell>
+        </TableRow>
+  @*      <TableRow>
+            <TableRowCell>Attack:</TableRowCell>
+            <TableRowCell>@Player.Damage</TableRowCell>
+        </TableRow>*@
+        <TableRow>
+            <TableRowCell>Attack:</TableRowCell>
+            <TableRowCell>@Player.Level</TableRowCell>
+        </TableRow>
+        <TableRow>
+            <TableRowCell>XP:</TableRowCell>
+            <TableRowCell>@Player.ExperiencePoints</TableRowCell>
+        </TableRow>
+    </TableBody>
+</Table>
+@code {
+    [Parameter]
+    public Player Player { get; set; } = new Player();
+}

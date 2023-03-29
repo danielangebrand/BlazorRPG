@@ -1,0 +1,9 @@
+﻿TODO
+MonsterCardComponent
+Inloggning och DB
+Tutorial quests
+Second map (DoD main quest)
+KeyReg
+Map
+Quests
+Olika attacks?

@@ -1,0 +1,21 @@
+﻿<h5>Game Messages:</h5>
+
+@if (Messages != null && Messages.Any())
+{
+    <div class="table-wrapper-scroll-y my-custom-scrollbar" style="height: 53vh">
+        @foreach (var msg in Messages)
+        {
+            <div><strong>@msg.Title</strong></div>
+            foreach (var m in msg.Messages)
+            {
+                <div>@m</div>
+            }
+            <hr />
+        }
+    </div>
+}
+
+@code {
+    [Parameter]
+    public IEnumerable<DisplayMessage> Messages { get; set; } = Array.Empty<DisplayMessage>();
+}

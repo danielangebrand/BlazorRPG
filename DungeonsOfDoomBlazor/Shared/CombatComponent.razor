@@ -1,0 +1,43 @@
+﻿
+<Heading Size="HeadingSize.Is5" Margin="Margin.Is2.OnY">Combat</Heading>
+<Row Margin="Margin.Is2.OnY">
+    <Column ColumnSize="ColumnSize.Is6.Is2.WithOffset">
+        <Select id="weapons-select" TValue="int">
+        @foreach (Weapon weapon in WeaponList)
+        {
+            <SelectItem Value="@weapon.Id">@weapon.Name</SelectItem>
+        }
+        </Select>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is2">
+        <Blazorise.Button id="attack-monster-btn" Color="Color.Secondary" Margin="Margin.Is1"
+                Disabled="@disableAttack" Clicked="OnAttackClicked">
+            Attack!
+        </Blazorise.Button>
+    </Column>
+</Row>
+ 
+@code {
+    private bool disableAttack => !WeaponList.Any() || LocationHasMonster == false;
+    private int selectedWeaponId;
+ 
+    [Parameter]
+    public IEnumerable<GameItem> WeaponList { get; set; } = Array.Empty<Weapon>();
+ 
+    [Parameter]
+    public bool LocationHasMonster { get; set; } = false;
+ 
+    [Parameter]
+    public EventCallback<Weapon?> AttackClicked { get; set; }
+ 
+    protected override void OnInitialized()
+    {
+        selectedWeaponId = WeaponList.Any() ? WeaponList.First().Id : 0;
+    }
+ 
+    public void OnAttackClicked()
+    {
+        var weapon = selectedWeaponId > 0 ? WeaponList.First(f => f.Id == selectedWeaponId) : null;
+        AttackClicked.InvokeAsync(weapon as Weapon);
+    }
+}

@@ -1,0 +1,15 @@
+﻿@if (Monster != null)
+{
+    <div style="border: 1px solid gainsboro; text-align: center">
+        <div>@Monster.Name</div>
+        <Figure>
+            <FigureImage Source="@Monster.Image" />
+            <FigureCaption><strong>Current Hit Points:</strong> @Monster.Health</FigureCaption>
+        </Figure>
+    </div>
+}
+
+@code {
+    [Parameter]
+    public Monster? Monster { get; set; }
+}
