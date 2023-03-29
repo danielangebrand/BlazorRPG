@@ -3,6 +3,7 @@ using DungeonsOfDoomBlazor.GameEngine.Models;
 using DungeonsOfDoomBlazor.GameEngine.Models.Characters;
 using DungeonsOfDoomBlazor.GameEngine.Models.Enum;
 using DungeonsOfDoomBlazor.GameEngine.Models.Items;
+using DungeonsOfDoomBlazor.GameEngine.Models.Quests;
 using DungeonsOfDoomBlazor.GameEngine.Models.World;
 using DungeonsOfDoomBlazor.GameEngine.Services;
 using System;
@@ -52,7 +53,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
             CurrentWorld = WorldFactory.CreateWorld();
             Movement = new Movement(this.CurrentWorld);
             CurrentLocation = this.Movement.CurrentLocation;
-            if (!CurrentPlayer.Inventory.Weapons.Any()) CurrentPlayer.Inventory.AddItem(ItemFactory.CreateGameItem(1));
+            if (!CurrentPlayer.Inventory.Weapons.Any()) CurrentPlayer.Inventory.AddItem(ItemFactory.CreateGameItem(1001));
         }
         public void ChangeGender()
         {
@@ -67,8 +68,125 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
             CurrentLocation = newLocation;
             Movement.UpdateLocation(CurrentLocation);
             GetMonsterAtCurrentLocation();
+            CompleteQuestsAtLocation();
+            GetQuestsAtLocation();
             CurrentMerchant = CurrentLocation.MerchantHere;
         }
+
+        private void GetQuestsAtLocation()
+        {
+            foreach (Quest quest in CurrentLocation.QuestsAvailableHere)
+            {
+                if (!CurrentPlayer.Quests.Any(q => q.PlayerQuest.Id == quest.Id))
+                {
+                    CurrentPlayer.Quests.Add(new QuestStatus(quest));
+
+                    var messageLines = new List<string>
+                    {
+                        quest.Description,
+                        "Items to complete the quest:"
+                    };
+
+                    foreach (ItemQuantity q in quest.ItemsToComplete)
+                    {
+                        messageLines.Add($"{ItemFactory.CreateGameItem(q.ItemId).Name} (x{q.Quantity})");
+                    }
+
+                    messageLines.Add("Rewards for quest completion:");
+                    messageLines.Add($" {quest.RewardExperiencePoints} XP");
+                    messageLines.Add($" {quest.RewardGold} gold");
+
+                    foreach (ItemQuantity quantity in quest.RewardItems)
+                    {
+                        messageLines.Add($"{quantity.Quantity} {ItemFactory.CreateGameItem(quantity.ItemId).Name} (x{quantity.Quantity})");
+                    }
+
+                    AddDisplayMessage($"Quest Added - {quest.Name}", messageLines);
+                }
+            }
+        }
+        //private void GetQuestsAtLocation()
+        //{
+        //    foreach (Quest quest in CurrentLocation.QuestsAvailableHere)
+        //    {
+
+        //        if (!CurrentPlayer.Quests.Any(q => q.PlayerQuest.Id == quest.Id))
+        //        {
+        //            CurrentPlayer.Quests.Add(new QuestStatus(quest));
+
+        //            var messageLines = new List<string>
+        //            {
+        //                quest.Description,
+        //                "Items to complete the quest: "
+        //            };
+
+        //            foreach (ItemQuantity q in quest.ItemsToComplete)
+        //            {
+        //                messageLines.Add($"{ItemFactory.CreateGameItem(q.ItemId).Name} (x{q.Quantity})");
+        //            }
+
+        //            messageLines.Add("Rewards for quest completion:");
+        //            messageLines.Add($" {quest.RewardExperiencePoints} XP");
+        //            messageLines.Add($" {quest.RewardGold} gold");
+
+        //            foreach (ItemQuantity quantity in quest.RewardItems)
+        //            {
+        //                messageLines.Add($"{quantity.Quantity} {ItemFactory.CreateGameItem(quantity.ItemId).Name} (x{quantity.Quantity})");
+        //            }
+
+
+        //            AddDisplayMessage($"Quest Added - {quest.Name}", messageLines);
+        //        }
+        //    }
+        //}
+
+        private void CompleteQuestsAtLocation()
+        {
+            foreach (Quest quest in CurrentLocation.QuestsAvailableHere)
+            {
+                QuestStatus questToComplete =
+                    CurrentPlayer.Quests.FirstOrDefault(q => q.PlayerQuest.Id == quest.Id && !q.IsCompleted);
+
+                if (questToComplete != null)
+                {
+                    if (CurrentPlayer.Inventory.HasAllTheseItems(quest.ItemsToComplete))
+                    {
+                        // Remove the quest completion items from the player's inventory
+                        foreach (ItemQuantity itemQuantity in quest.ItemsToComplete)
+                        {
+                            for (int i = 0; i < itemQuantity.Quantity; i++)
+                            {
+                                CurrentPlayer.Inventory.RemoveItem(
+                                    CurrentPlayer.Inventory.Items.First(
+                                        item => item.Id == itemQuantity.ItemId));
+                            }
+                        }
+
+                        // give the player the quest rewards
+                        var messageLines = new List<string>();
+                        CurrentPlayer.ExperiencePoints += quest.RewardExperiencePoints;
+                        messageLines.Add($"You receive {quest.RewardExperiencePoints} experience points");
+
+                        CurrentPlayer.Gold += quest.RewardGold;
+                        messageLines.Add($"You receive {quest.RewardGold} gold");
+
+                        foreach (ItemQuantity itemQuantity in quest.RewardItems)
+                        {
+                            GameItem rewardItem = ItemFactory.CreateGameItem(itemQuantity.ItemId);
+
+                            CurrentPlayer.Inventory.AddItem(rewardItem);
+                            messageLines.Add($"You receive a {rewardItem.Name}");
+                        }
+
+                        AddDisplayMessage($"Quest Completed - {quest.Name}", messageLines);
+
+                        // mark the quest as completed
+                        questToComplete.IsCompleted = true;
+                    }
+                }
+            }
+        }
+
 
         private void GetMonsterAtCurrentLocation()
         {
@@ -76,12 +194,22 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
             if (CurrentMonster != null) AddDisplayMessage("Monster Encountered:", $"You see a {CurrentMonster.Name} here!");
         }
 
-        private void AddDisplayMessage(string title, string message) => AddDisplayMessage(title, new List<string> { message });
-        void AddDisplayMessage(string title, IList<string> messages)
+        private void AddDisplayMessage(string title, string message) =>
+    AddDisplayMessage(title, new List<string> { message });
+
+        private void AddDisplayMessage(string title, IList<string> messages)
         {
-            var message = new DisplayMessage(title, messages);
+            AddDisplayMessage(new DisplayMessage(title, messages));
+        }
+
+        public void AddDisplayMessage(DisplayMessage message)
+        {
             this.Messages.Insert(0, message);
-            if (messages.Count > _maximumMessagesCount) Messages.Remove(Messages.Last());
+
+            if (Messages.Count > _maximumMessagesCount)
+            {
+                Messages.Remove(Messages.Last());
+            }
         }
 
         public void AttackCurrentMonster(Weapon? currentWeapon)
@@ -119,7 +247,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
                 else CurrentPlayer.Health -= dmgToPlayer;
                 AddDisplayMessage($"{CurrentMonster.Name} Combat", $"The {CurrentMonster.Name} hit you for {dmgToPlayer}. Remaining health: {CurrentPlayer.Health}");
             }
-            if (!CurrentPlayer.IsAlive)
+            if (CurrentPlayer.Health <= 0)
             {
                 AddDisplayMessage($"{CurrentPlayer.Name} Defeated", $"The {CurrentMonster.Name} {CurrentMonster.KillMessage}");
                 CurrentPlayer.Health = CurrentPlayer.MaxHealth; //

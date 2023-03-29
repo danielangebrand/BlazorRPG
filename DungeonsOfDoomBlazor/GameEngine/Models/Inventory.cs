@@ -23,7 +23,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models
             _ = item ?? throw new ArgumentNullException(nameof(item));
             backpack.Add(item);
 
-            if (item.IsUnique) 
+            if (item.IsUnique)
             {
                 backpackGrouped.Add(new GroupedInventoryItem { Item = item, Quantity = 1 });
             }
@@ -37,7 +37,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models
             }
         }
 
-        public void RemoveItem(GameItem item) 
+        public void RemoveItem(GameItem item)
         {
             _ = item ?? throw new ArgumentNullException(nameof(item));
             backpack.Remove(item);
@@ -48,6 +48,10 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models
                 if (gItemToRemove.Quantity == 1) backpackGrouped.Remove(gItemToRemove);
                 else gItemToRemove.Quantity--;
             }
+        }
+        public bool HasAllTheseItems(IEnumerable<ItemQuantity> items)
+        {
+            return items.All(item => Items.Count(i => i.Id == item.ItemId) >= item.Quantity);
         }
     }
 }

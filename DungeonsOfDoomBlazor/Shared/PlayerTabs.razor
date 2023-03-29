@@ -32,7 +32,24 @@
             </div>
         </TabPanel>
         <TabPanel Name="quests">
-            coming soon...
+            <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                <Table Bordered="true" Hoverable="true" Narrow="true" Striped="true"
+                       Style="background-color: white">
+                    <TableHeader>
+                        <TableRowCell>Name</TableRowCell>
+                        <TableRowCell>Done?</TableRowCell>
+                    </TableHeader>
+                    <TableBody>
+                        @foreach (var quest in Player.Quests)
+                        {
+                            <TableRow>
+                                <TableRowCell>@quest.PlayerQuest.Name</TableRowCell>
+                                <TableRowCell>@(quest.IsCompleted ? "Yes" : "No")</TableRowCell>
+                                </TableRow>
+                        }
+                    </TableBody>
+                </Table>
+            </div>
         </TabPanel>
     </Content>
 </Tabs>

@@ -1,4 +1,4 @@
-﻿using DungeonsOfDoomBlazor.GameEngine.Models;
+﻿using DungeonsOfDoomBlazor.GameEngine.Models.Quests;
 using DungeonsOfDoomBlazor.GameEngine.Models.World;
 using System.Xml.Linq;
 

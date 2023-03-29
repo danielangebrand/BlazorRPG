@@ -1,4 +1,4 @@
-﻿namespace DungeonsOfDoomBlazor.GameEngine.Models
+﻿namespace DungeonsOfDoomBlazor.GameEngine.Models.Items
 {
     public class ItemQuantity
     {

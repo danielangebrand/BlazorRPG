@@ -11,7 +11,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models.Characters
     public abstract class Character
     {
         private int _health;
-        private string _name;
+        //private string _name;
 
         public Inventory Inventory { get; } = new Inventory();
         public int MaxHealth { get; set; }

@@ -1,18 +1,19 @@
-﻿using DungeonsOfDoomBlazor.GameEngine.Models;
+﻿using DungeonsOfDoomBlazor.GameEngine.Models.Items;
+using DungeonsOfDoomBlazor.GameEngine.Models.Quests;
 using System.Xml.Linq;
 
 namespace DungeonsOfDoomBlazor.GameEngine.Factories
 {
     static class QuestFactory
     {
-        private static readonly IList<Quest> _quests = new List<Quest>();
+        static readonly IList<Quest> _quests = new List<Quest>();
 
         static QuestFactory()
         {
             List<ItemQuantity> itemsToComplete = new List<ItemQuantity>();
             List<ItemQuantity> rewardItems = new List<ItemQuantity>();
 
-            itemsToComplete.Add(new ItemQuantity { ItemId = 9001, Quantity = 5 });
+            itemsToComplete.Add(new ItemQuantity { ItemId = 9002, Quantity = 5 });
             rewardItems.Add(new ItemQuantity { ItemId = 1002, Quantity = 1 });
 
             _quests.Add(new Quest

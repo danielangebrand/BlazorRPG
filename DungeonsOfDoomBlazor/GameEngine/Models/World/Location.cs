@@ -1,6 +1,7 @@
 ﻿using DungeonsOfDoomBlazor.GameEngine.Factories;
 using DungeonsOfDoomBlazor.GameEngine.Models.Characters;
 using DungeonsOfDoomBlazor.GameEngine.Models.Items;
+using DungeonsOfDoomBlazor.GameEngine.Models.Quests;
 using DungeonsOfDoomBlazor.GameEngine.Services;
 
 namespace DungeonsOfDoomBlazor.GameEngine.Models.World
