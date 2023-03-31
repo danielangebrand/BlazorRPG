@@ -22,7 +22,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories
                         DamageRoll = "1d2",
                         KillMessage = "does a little dance over your paralyzed body and slowly devours you."
                     };
-
+                    snake.CurrentWeapon = ItemFactory.CreateGameItem(1501);
                     AddLootItem(snake, 9001, 25);
                     AddLootItem(snake, 9002, 75);
                     return snake;
@@ -40,7 +40,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories
                         KillMessage = "eats you alive."
 
                     };
-
+                    rat.CurrentWeapon = ItemFactory.CreateGameItem(1502);
                     AddLootItem(rat, 9003, 25);
                     AddLootItem(rat, 9004, 75);
                     return rat;
@@ -58,6 +58,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories
                         KillMessage = "kills you and lay some eggs inside your body."
 
                     };
+                    giantSpider.CurrentWeapon = ItemFactory.CreateGameItem(1503);
                     AddLootItem(giantSpider, 9005, 25);
                     AddLootItem(giantSpider, 9006, 75);
                     return giantSpider;
@@ -74,7 +75,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories
                         DamageRoll = "2d10",
                         KillMessage = "wins the argument and declares you stupid."
                     };
-
+                    geek.CurrentWeapon = ItemFactory.CreateGameItem(1504);
                     AddLootItem(geek, 9007, 25);
                     AddLootItem(geek, 9008, 75);
                     return geek;

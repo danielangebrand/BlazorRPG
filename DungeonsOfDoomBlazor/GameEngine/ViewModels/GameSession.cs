@@ -22,7 +22,6 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
         public Player CurrentPlayer { get; private set; }
 
         public Location CurrentLocation { get; private set; }
-        //public World CurrentWorld { get; private set; }
 
         public Movement Movement { get; private set; }
         public Monster? CurrentMonster { get; private set; }
@@ -54,6 +53,8 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
             Movement = new Movement(_currentWorld);
             CurrentLocation = this.Movement.CurrentLocation;
             if (!CurrentPlayer.Inventory.Weapons.Any()) CurrentPlayer.Inventory.AddItem(ItemFactory.CreateGameItem(1001));
+
+            CurrentPlayer.Inventory.AddItem(ItemFactory.CreateGameItem(2001));
         }
         public void ChangeGender()
         {
@@ -187,16 +188,39 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
                 AddDisplayMessage("Combat Warning!", "You have no selected weapon.");
                 return;
             }
-
-            //int dmgToMonster = _diceService.Roll(currentWeapon.DamageRoll).Value;
+            CurrentPlayer.CurrentWeapon = currentWeapon;
             var message = currentWeapon.PerformAction(CurrentPlayer, CurrentMonster);
-            Messages.Add(message);
+            AddDisplayMessage(message);
 
-            //if (dmgToMonster == 0) AddDisplayMessage($"{CurrentPlayer.Name} combat:", $"You missed the {CurrentMonster.Name}");
-            //else CurrentMonster.TakeDamage(dmgToMonster);
-            //AddDisplayMessage($"{CurrentPlayer.Name} combat: ", $"You hit the {CurrentMonster.Name} for {dmgToMonster}. Remaining health: {CurrentMonster.Health}");
+            /*TODO:
+             * Uppdatera wpn list efter att man sålt ett vapen?
+            */
 
             if (!CurrentMonster.IsAlive)
+            {
+                Death(CurrentMonster);
+                GetMonsterAtCurrentLocation();
+            }
+            else
+            {
+                message = CurrentMonster.UseCurrentWeaponOn(CurrentPlayer);
+                AddDisplayMessage(message);
+            }
+            if (!CurrentPlayer.IsAlive)
+            {
+                Death(CurrentPlayer);
+            }
+        }
+        private void Death(Character character)
+        {
+            if (character == CurrentPlayer)
+            {
+                AddDisplayMessage($"{CurrentPlayer.Name} Defeated", $"The {CurrentMonster.Name} {CurrentMonster.KillMessage}");
+                this.OnLocationChanged(_currentWorld.LocationAt(0, -1));
+                AddDisplayMessage("You wake up in your home", $"Someone found you and carried you home. Your wounds have healed and you think to yourself, 'En sån här chans får man bara en gång i live´..' ");
+                CurrentPlayer.FullHeal();
+            }
+            else if (character == CurrentMonster)
             {
                 var messageLines = new List<string>();
                 messageLines.Add($"You've defeated the {CurrentMonster.Name}!");
@@ -213,30 +237,17 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
                     messageLines.Add($"You've recieved a {item.Name}");
                 }
                 AddDisplayMessage("Monster Defeated", messageLines);
-                GetMonsterAtCurrentLocation();
-            }
-            else
-            {
-                int dmgToPlayer = _diceService.Roll(CurrentMonster.DamageRoll).Value;
-                if (dmgToPlayer == 0) AddDisplayMessage($"{CurrentMonster.Name} Combat", $"{CurrentMonster.Name} attempts an attack, but stumbles and performs a moonwalk.");
-                else CurrentPlayer.TakeDamage(dmgToPlayer);
-                AddDisplayMessage($"{CurrentMonster.Name} Combat", $"The {CurrentMonster.Name} hit you for {dmgToPlayer}. Remaining health: {CurrentPlayer.Health}");
-            }
-            if (!CurrentPlayer.IsAlive)
-            {
-                Death();
-                //AddDisplayMessage($"{CurrentPlayer.Name} Defeated", $"The {CurrentMonster.Name} {CurrentMonster.KillMessage}");
-                //CurrentPlayer.FullHeal();
-                //this.OnLocationChanged(_currentWorld.LocationAt(0, -1));
             }
         }
 
-        private void Death()
+        public void ConsumeCurrentItem(GameItem? item)
         {
-            AddDisplayMessage($"{CurrentPlayer.Name} Defeated", $"The {CurrentMonster.Name} {CurrentMonster.KillMessage}");
-            this.OnLocationChanged(_currentWorld.LocationAt(0, -1));
-            AddDisplayMessage("You wake up in your home", $"Someone found you and carried you home. Your wounds have healed and you think to yourself, 'En sån här chans får man bara en gång i live´..' ");
-            CurrentPlayer.FullHeal();
+            if (item is null || item.Category != ItemCategory.Consumable) AddDisplayMessage("Item Warning!", "You must select a consumable to use.");
+            return;
+
+            CurrentPlayer.CurrentConsumable = item;
+            var message = CurrentPlayer.UseCurrentConsumable(CurrentPlayer);
+            AddDisplayMessage(message);
         }
     }
 }

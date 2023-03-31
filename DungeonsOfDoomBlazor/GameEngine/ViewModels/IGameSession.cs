@@ -18,6 +18,6 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
         void ChangeGender();
         void AttackCurrentMonster(GameItem? currentWeapon);
         void AddDisplayMessage(DisplayMessage message);
-        //void AddXp();
+        void ConsumeCurrentItem(GameItem? item);
     }
 }

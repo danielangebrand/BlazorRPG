@@ -67,6 +67,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models.Items
             Console.WriteLine("Press any key to continue.. ");
             Console.ReadKey(true);
         }
+        //La till Action som parameter, men player-skada visas inte än.
         public virtual GameItem Clone() => new GameItem(Id, Category, Name, Description, Price, IsUnique, Action);
     }
 }

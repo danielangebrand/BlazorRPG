@@ -10,6 +10,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models
         public IList<GameItem> Weapons => Items.Where(i => i.Category == ItemCategory.Weapon).ToList();
         public IReadOnlyList<GameItem> Items => backpack.AsReadOnly();
         public IReadOnlyList<GroupedInventoryItem> GroupedItems => backpackGrouped.AsReadOnly();
+        public IList<GameItem> Consumables => Items.Where(i => i.Category == ItemCategory.Consumable).ToList();
 
         public Inventory()
         {
@@ -44,12 +45,14 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models
         {
             _ = item ?? throw new ArgumentNullException(nameof(item));
             backpack.Remove(item);
-
-            GroupedInventoryItem gItemToRemove = backpackGrouped.FirstOrDefault(g => g.Item == item);
-            if (gItemToRemove != null)
+            if (!item.IsUnique)
             {
-                if (gItemToRemove.Quantity == 1) backpackGrouped.Remove(gItemToRemove);
-                else gItemToRemove.Quantity--;
+                GroupedInventoryItem gItemToRemove = backpackGrouped.FirstOrDefault(g => g.Item.Id == item.Id);
+                if (gItemToRemove != null)
+                {
+                    if (gItemToRemove.Quantity == 1) backpackGrouped.Remove(gItemToRemove);
+                    else gItemToRemove.Quantity--;
+                }
             }
         }
         public bool HasAllTheseItems(IEnumerable<ItemQuantity> items)

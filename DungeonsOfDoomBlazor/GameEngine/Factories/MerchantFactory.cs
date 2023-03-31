@@ -25,6 +25,8 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories
                 Health = 999,
             };
             m.Inventory.AddItem(ItemFactory.CreateGameItem(1001));
+            m.Inventory.AddItem(ItemFactory.CreateGameItem(1003));
+            m.Inventory.AddItem(ItemFactory.CreateGameItem(1004));
             return m;
         }
     }

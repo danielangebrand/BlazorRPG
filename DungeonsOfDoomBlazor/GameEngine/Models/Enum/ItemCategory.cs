@@ -5,6 +5,6 @@
         Miscellaneous = 1,
         Weapon,
         Armor,
-        Potion
+        Consumable
     }
 }

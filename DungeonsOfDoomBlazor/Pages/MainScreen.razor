@@ -36,7 +36,9 @@
             <Column ColumnSize="ColumnSize.Is8.OnWidescreen.Is12">
                 <CombatComponent WeaponList="@ViewModel.CurrentPlayer.Inventory.Weapons"
                 AttackClicked="@ViewModel.AttackCurrentMonster"
-                LocationHasMonster="@ViewModel.HasMonster" />
+                LocationHasMonster="@ViewModel.HasMonster"
+                ConsumableList="@ViewModel.CurrentPlayer.Inventory.Consumables"
+                ConsumeClicked="@ViewModel.ConsumeCurrentItem" />
             </Column>
             <Column ColumnSize="ColumnSize.Is4.OnWidescreen.Is12">
                 <MovementComponent Movement="@ViewModel.Movement" LocationChanged="@ViewModel.OnLocationChanged" />

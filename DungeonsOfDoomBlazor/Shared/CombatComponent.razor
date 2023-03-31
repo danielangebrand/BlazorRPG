@@ -16,28 +16,58 @@
         </Blazorise.Button>
     </Column>
 </Row>
- 
+ <Row Margin="Margin.Is2.OnY">
+    <Column ColumnSize="ColumnSize.Is6.Is2.WithOffset" Margin="Margin.Is1.FromTop">
+        <Select id="consumables-select" TValue="int" @bind-SelectedValue="selectedConsumableId">
+            @foreach (GameItem item in ConsumableList)
+            {
+                <SelectItem TValue="int" Value="@item.Id">@item.Name</SelectItem>
+            }
+        </Select>
+    </Column>
+    <Column ColumnSize="ColumnSize.Is2">
+        <Blazorise.Button id="use-consumable-btn" Color="Color.Secondary" Margin="Margin.Is1"
+                Disabled="@disableUse" Clicked="OnConsumeClicked">
+            Use!
+        </Blazorise.Button>
+    </Column>
+</Row>
+
 @code {
     private bool disableAttack => !WeaponList.Any() || LocationHasMonster == false;
+    private bool disableUse => !ConsumableList.Any();
     private int selectedWeaponId;
- 
+    private int selectedConsumableId;
+
+
+    [Parameter]
+    public IEnumerable<GameItem> ConsumableList { get; set; } = Array.Empty<GameItem>();
+    [Parameter]
+    public EventCallback<GameItem?> ConsumeClicked { get; set; }
+
     [Parameter]
     public IEnumerable<GameItem> WeaponList { get; set; } = Array.Empty<GameItem>();
- 
+
     [Parameter]
     public bool LocationHasMonster { get; set; } = false;
- 
+
     [Parameter]
     public EventCallback<GameItem?> AttackClicked { get; set; }
- 
+
     protected override void OnInitialized()
     {
         selectedWeaponId = WeaponList.Any() ? WeaponList.First().Id : 0;
+        selectedConsumableId = ConsumableList.Any() ? ConsumableList.First().Id : 0;
     }
  
     public void OnAttackClicked()
     {
         var weapon = selectedWeaponId > 0 ? WeaponList.First(f => f.Id == selectedWeaponId) : null;
         AttackClicked.InvokeAsync(weapon);
+    }
+    public void OnConsumeClicked()
+    {
+        var item = selectedConsumableId > 0 ? ConsumableList.First(f => f.Id == selectedConsumableId) : null;
+        ConsumeClicked.InvokeAsync(item);
     }
 }

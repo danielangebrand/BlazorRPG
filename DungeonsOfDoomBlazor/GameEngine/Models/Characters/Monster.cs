@@ -24,45 +24,13 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models.Characters
         public string KillMessage { get; set; }
         public override string Name
         {
-            get => IsAlive ? _name : $"The remains of a {_name}";
+            get => IsAlive ? _name : $"the remains of a {_name}";
 
             set { _name = value; }
         }
-        //public Monster(string name, int health, int damage) : base()
-        //{
-        //    MonsterCounter++;
-        //    Name = name;
-        //    Health = health;
-        //    Damage = damage;
-        //}
         public Monster() : base()
         {
             MonsterCounter++;
         }
-
-        //public static Monster Create()
-        //{
-        //    if (RandomUtils.Percentage())
-        //    {
-        //        var m = new StonedGolem();
-        //        //var item = GetItem();
-
-        //        //if (item != null) m.Backpack.Add(item);
-
-        //        return m;
-        //    }
-        //    else
-        //    {
-        //        var m = new ShriekingGeek();
-        //        //var item = GetItem();
-
-        //        //if (item != null) m.Backpack.Add(item);
-        //        return m;
-        //    }
-
-        //}
-
-        //private static Item GetItem() => Item.RandomItem();
-
     }
 }
