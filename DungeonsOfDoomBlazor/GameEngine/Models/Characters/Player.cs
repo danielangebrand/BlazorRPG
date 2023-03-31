@@ -12,6 +12,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models.Characters
         public string CharacterClass { get; set; } = string.Empty;
         public Gender G { get; set; }
         public int ExperiencePoints { get; set; } = 0;
+        public override int MaxHealth { get; set; } = 30;
         public IList<QuestStatus> Quests { get; set; } = new List<QuestStatus>();
 
         //public Player(string name, int health, int damage, int x, int y, int gender) : base()
@@ -27,6 +28,21 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models.Characters
         {
             Gender g = (Gender)gender;
             return g;
+        }
+        public void AddXP(int xp)
+        {
+            if (xp > 0)
+            {
+                ExperiencePoints += xp;
+                SetLevelAndMaxHP();
+            }
+        }
+
+        private void SetLevelAndMaxHP()
+        {
+            int lvl = Level;
+            Level = (ExperiencePoints / 100) + 1;
+            if (Level != lvl) MaxHealth = Level * 10;
         }
     }
 }

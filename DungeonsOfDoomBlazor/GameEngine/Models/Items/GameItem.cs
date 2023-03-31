@@ -1,4 +1,9 @@
-﻿namespace DungeonsOfDoomBlazor.GameEngine.Models.Items
+﻿using DungeonsOfDoomBlazor.GameEngine.Actions;
+using DungeonsOfDoomBlazor.GameEngine.Models.Characters;
+using DungeonsOfDoomBlazor.GameEngine.Models.Enum;
+using System.Reflection.Metadata.Ecma335;
+
+namespace DungeonsOfDoomBlazor.GameEngine.Models.Items
 {
     public class GameItem
     {
@@ -16,41 +21,33 @@
         public bool IsUnique { get; set; }
         public bool FemaleOnly { get; set; } = false;
         public bool MaleOnly { get; set; } = false;
+        public IAction? Action { get; set; }
+        public ItemCategory Category { get; set; }
 
-        public GameItem(int id, string name, string description, int price, bool isUnique = false)
+        public GameItem(int id, ItemCategory category, string name, string description, int price, bool isUnique = false, IAction? action = null)
         {
             Id = id;
             Name = name;
             Description = description;
             Price = price;
             IsUnique = isUnique;
+            Category = category;
+            Action = action;
         }
         public GameItem()
         {
-            
+
         }
-        //public GameItem RandomItem()
-        //{
-        //    switch (RandomUtils.Dice())
-        //    {
-        //        case < 2:
-        //            return new Sword();
-        //        case < 4:
-        //            return new ChickenOnYourHead();
-        //        case < 6:
-        //            return new GimpSuite();
+        public DisplayMessage PerformAction(Character actor, Character target)
+        {
+            if (Action is null)
+            {
+                throw new InvalidOperationException("CurrentWeapon.Action cannot be null");
+            }
+            else return Action.Execute(actor, target);
+            //return (Action is null) ? throw new InvalidOperationException($"CurrentWeapon.Action can't be null") : Action.Execute(actor, target);
+        }
 
-        //        case < 7:
-        //            return new JavaScript();
-
-        //        case < 8:
-        //            return new DaggerSwagger();
-
-        //        case < 9:
-        //            return new ChangeOfName();
-        //        default: return null;
-        //    }
-        //}
 
         public string ChangeName()
         {
@@ -70,6 +67,6 @@
             Console.WriteLine("Press any key to continue.. ");
             Console.ReadKey(true);
         }
-        public virtual GameItem Clone() => new GameItem(Id, Name, Description, Price);
+        public virtual GameItem Clone() => new GameItem(Id, Category, Name, Description, Price, IsUnique, Action);
     }
 }

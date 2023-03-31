@@ -24,7 +24,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models.Characters
         public string KillMessage { get; set; }
         public override string Name
         {
-            get => IsAlive ? _name : $"The corpse of a {_name}";
+            get => IsAlive ? _name : $"The remains of a {_name}";
 
             set { _name = value; }
         }

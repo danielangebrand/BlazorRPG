@@ -29,7 +29,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories
                 },
                                                 new Location
                 {
-                    X = -0,
+                    X = 0,
                     Y = -1,
                     Name = "Home",
                     Description = "This is your home.",

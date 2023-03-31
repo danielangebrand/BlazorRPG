@@ -22,7 +22,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
         public Player CurrentPlayer { get; private set; }
 
         public Location CurrentLocation { get; private set; }
-        public World CurrentWorld { get; private set; }
+        //public World CurrentWorld { get; private set; }
 
         public Movement Movement { get; private set; }
         public Monster? CurrentMonster { get; private set; }
@@ -50,8 +50,8 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
                 Y = 0,
                 G = Gender.Undecided
             };
-            CurrentWorld = WorldFactory.CreateWorld();
-            Movement = new Movement(this.CurrentWorld);
+            _currentWorld = WorldFactory.CreateWorld();
+            Movement = new Movement(_currentWorld);
             CurrentLocation = this.Movement.CurrentLocation;
             if (!CurrentPlayer.Inventory.Weapons.Any()) CurrentPlayer.Inventory.AddItem(ItemFactory.CreateGameItem(1001));
         }
@@ -105,40 +105,6 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
                 }
             }
         }
-        //private void GetQuestsAtLocation()
-        //{
-        //    foreach (Quest quest in CurrentLocation.QuestsAvailableHere)
-        //    {
-
-        //        if (!CurrentPlayer.Quests.Any(q => q.PlayerQuest.Id == quest.Id))
-        //        {
-        //            CurrentPlayer.Quests.Add(new QuestStatus(quest));
-
-        //            var messageLines = new List<string>
-        //            {
-        //                quest.Description,
-        //                "Items to complete the quest: "
-        //            };
-
-        //            foreach (ItemQuantity q in quest.ItemsToComplete)
-        //            {
-        //                messageLines.Add($"{ItemFactory.CreateGameItem(q.ItemId).Name} (x{q.Quantity})");
-        //            }
-
-        //            messageLines.Add("Rewards for quest completion:");
-        //            messageLines.Add($" {quest.RewardExperiencePoints} XP");
-        //            messageLines.Add($" {quest.RewardGold} gold");
-
-        //            foreach (ItemQuantity quantity in quest.RewardItems)
-        //            {
-        //                messageLines.Add($"{quantity.Quantity} {ItemFactory.CreateGameItem(quantity.ItemId).Name} (x{quantity.Quantity})");
-        //            }
-
-
-        //            AddDisplayMessage($"Quest Added - {quest.Name}", messageLines);
-        //        }
-        //    }
-        //}
 
         private void CompleteQuestsAtLocation()
         {
@@ -164,10 +130,10 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
 
                         // give the player the quest rewards
                         var messageLines = new List<string>();
-                        CurrentPlayer.ExperiencePoints += quest.RewardExperiencePoints;
+                        CurrentPlayer.AddXP(quest.RewardExperiencePoints);
                         messageLines.Add($"You receive {quest.RewardExperiencePoints} experience points");
 
-                        CurrentPlayer.Gold += quest.RewardGold;
+                        CurrentPlayer.ReceiveGold(quest.RewardGold);
                         messageLines.Add($"You receive {quest.RewardGold} gold");
 
                         foreach (ItemQuantity itemQuantity in quest.RewardItems)
@@ -212,24 +178,33 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
             }
         }
 
-        public void AttackCurrentMonster(Weapon? currentWeapon)
+        public void AttackCurrentMonster(GameItem? currentWeapon)
         {
             if (CurrentMonster == null) return;
 
-            if (currentWeapon == null) AddDisplayMessage("Warning!", "You have no selected weapon.");
-            int dmgToMonster = _diceService.Roll(currentWeapon.DamageRoll).Value;
+            if (currentWeapon == null)
+            {
+                AddDisplayMessage("Combat Warning!", "You have no selected weapon.");
+                return;
+            }
 
-            if (dmgToMonster == 0) AddDisplayMessage($"{CurrentPlayer.Name} combat:", $"You missed the {CurrentMonster.Name}");
-            else CurrentMonster.Health -= dmgToMonster;
-            AddDisplayMessage($"{CurrentPlayer.Name} combat: ", $"You hit the {CurrentMonster.Name} for {dmgToMonster}. Remaining health: {CurrentMonster.Health}");
+            //int dmgToMonster = _diceService.Roll(currentWeapon.DamageRoll).Value;
+            var message = currentWeapon.PerformAction(CurrentPlayer, CurrentMonster);
+            Messages.Add(message);
+
+            //if (dmgToMonster == 0) AddDisplayMessage($"{CurrentPlayer.Name} combat:", $"You missed the {CurrentMonster.Name}");
+            //else CurrentMonster.TakeDamage(dmgToMonster);
+            //AddDisplayMessage($"{CurrentPlayer.Name} combat: ", $"You hit the {CurrentMonster.Name} for {dmgToMonster}. Remaining health: {CurrentMonster.Health}");
 
             if (!CurrentMonster.IsAlive)
             {
                 var messageLines = new List<string>();
                 messageLines.Add($"You've defeated the {CurrentMonster.Name}!");
-                CurrentPlayer.ExperiencePoints += CurrentMonster.RewardExperiencePoints;
+
+                CurrentPlayer.AddXP(CurrentMonster.RewardExperiencePoints);
                 messageLines.Add($"You've recieved {CurrentMonster.RewardExperiencePoints}XP!");
-                CurrentPlayer.Gold += CurrentMonster.Gold;
+
+                CurrentPlayer.ReceiveGold(CurrentMonster.Gold);
                 messageLines.Add($"You found ${CurrentMonster.Gold}!");
 
                 foreach (GameItem item in CurrentMonster.Inventory.Items)
@@ -244,20 +219,24 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
             {
                 int dmgToPlayer = _diceService.Roll(CurrentMonster.DamageRoll).Value;
                 if (dmgToPlayer == 0) AddDisplayMessage($"{CurrentMonster.Name} Combat", $"{CurrentMonster.Name} attempts an attack, but stumbles and performs a moonwalk.");
-                else CurrentPlayer.Health -= dmgToPlayer;
+                else CurrentPlayer.TakeDamage(dmgToPlayer);
                 AddDisplayMessage($"{CurrentMonster.Name} Combat", $"The {CurrentMonster.Name} hit you for {dmgToPlayer}. Remaining health: {CurrentPlayer.Health}");
             }
-            if (CurrentPlayer.Health <= 0)
+            if (!CurrentPlayer.IsAlive)
             {
-                AddDisplayMessage($"{CurrentPlayer.Name} Defeated", $"The {CurrentMonster.Name} {CurrentMonster.KillMessage}");
-                CurrentPlayer.Health = CurrentPlayer.MaxHealth; //
-                this.OnLocationChanged(_currentWorld.LocationAt(0, -1));
+                Death();
+                //AddDisplayMessage($"{CurrentPlayer.Name} Defeated", $"The {CurrentMonster.Name} {CurrentMonster.KillMessage}");
+                //CurrentPlayer.FullHeal();
+                //this.OnLocationChanged(_currentWorld.LocationAt(0, -1));
             }
         }
 
-        //public void AddXP()
-        //{
-        //    this.CurrentPlayer.ExperiencePoints += 10;
-        //}
+        private void Death()
+        {
+            AddDisplayMessage($"{CurrentPlayer.Name} Defeated", $"The {CurrentMonster.Name} {CurrentMonster.KillMessage}");
+            this.OnLocationChanged(_currentWorld.LocationAt(0, -1));
+            AddDisplayMessage("You wake up in your home", $"Someone found you and carried you home. Your wounds have healed and you think to yourself, 'En sån här chans får man bara en gång i live´..' ");
+            CurrentPlayer.FullHeal();
+        }
     }
 }

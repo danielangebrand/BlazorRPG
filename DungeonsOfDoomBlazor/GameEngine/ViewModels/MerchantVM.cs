@@ -16,7 +16,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
             _ = item ?? throw new ArgumentNullException(nameof(item));
             if (Player != null && Merchant != null)
             {
-                Player.Gold += item.Price;
+                Player.ReceiveGold(item.Price);
                 Merchant.Inventory.AddItem(item);
                 Player.Inventory.RemoveItem(item);
 
@@ -32,7 +32,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
                 ErrorMessage = string.Empty;
                 if (Player.Gold >= item.Price)
                 {
-                    Player.Gold -= item.Price;
+                    Player.SpendGold(item.Price);
                     Player.Inventory.AddItem(item);
                     Merchant.Inventory.RemoveItem(item);
                     InventoryChanged.InvokeAsync(null);

@@ -16,7 +16,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
         bool HasMonster { get; }
         void OnLocationChanged(Location location);
         void ChangeGender();
-        void AttackCurrentMonster(Weapon? currentWeapon);
+        void AttackCurrentMonster(GameItem? currentWeapon);
         void AddDisplayMessage(DisplayMessage message);
         //void AddXp();
     }

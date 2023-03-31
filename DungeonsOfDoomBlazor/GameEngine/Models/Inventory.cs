@@ -1,4 +1,5 @@
-﻿using DungeonsOfDoomBlazor.GameEngine.Models.Items;
+﻿using DungeonsOfDoomBlazor.GameEngine.Models.Enum;
+using DungeonsOfDoomBlazor.GameEngine.Models.Items;
 
 namespace DungeonsOfDoomBlazor.GameEngine.Models
 {
@@ -6,12 +7,14 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models
     {
         private readonly List<GameItem> backpack = new List<GameItem>();
         private readonly List<GroupedInventoryItem> backpackGrouped = new List<GroupedInventoryItem>();
-        public IEnumerable<GameItem> Weapons => backpack.Where(w => w is Weapon);
+        public IList<GameItem> Weapons => Items.Where(i => i.Category == ItemCategory.Weapon).ToList();
         public IReadOnlyList<GameItem> Items => backpack.AsReadOnly();
         public IReadOnlyList<GroupedInventoryItem> GroupedItems => backpackGrouped.AsReadOnly();
+
         public Inventory()
         {
         }
+
         public Inventory(IEnumerable<GameItem> items)
         {
             if (items == null) return;

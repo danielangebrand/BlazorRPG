@@ -1,19 +1,21 @@
-﻿namespace DungeonsOfDoomBlazor.GameEngine.Models.Items
-{
-    public class Weapon : GameItem
-    {
-        public string DamageRoll { get; private set; } = string.Empty;
+﻿//using DungeonsOfDoomBlazor.GameEngine.Models.Enum;
 
-        public Weapon(int id, string name, string description, int price, string damageRoll)
-            : base(id, name, description, price, true)
-        {
-            DamageRoll = damageRoll;
-        }
-        public Weapon()
-        {
+//namespace DungeonsOfDoomBlazor.GameEngine.Models.Items
+//{
+//    public class Weapon : GameItem
+//    {
+//        public string DamageRoll { get; private set; } = string.Empty;
+
+//        public Weapon(int id, ItemCategory cat, string name, string description, int price, string damageRoll)
+//            : base(id, cat, name, description, price, true)
+//        {
+//            DamageRoll = damageRoll;
+//        }
+//        public Weapon()
+//        {
             
-        }
+//        }
 
-        public override GameItem Clone() => new Weapon(Id, Name, Description, Price, DamageRoll);
-    }
-}
+//        public override GameItem Clone() => new Weapon(Id, Name, Description, Price, DamageRoll);
+//    }
+//}

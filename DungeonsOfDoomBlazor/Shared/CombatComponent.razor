@@ -3,7 +3,7 @@
 <Row Margin="Margin.Is2.OnY">
     <Column ColumnSize="ColumnSize.Is6.Is2.WithOffset">
         <Select id="weapons-select" TValue="int">
-        @foreach (Weapon weapon in WeaponList)
+        @foreach (GameItem weapon in WeaponList)
         {
             <SelectItem Value="@weapon.Id">@weapon.Name</SelectItem>
         }
@@ -22,13 +22,13 @@
     private int selectedWeaponId;
  
     [Parameter]
-    public IEnumerable<GameItem> WeaponList { get; set; } = Array.Empty<Weapon>();
+    public IEnumerable<GameItem> WeaponList { get; set; } = Array.Empty<GameItem>();
  
     [Parameter]
     public bool LocationHasMonster { get; set; } = false;
  
     [Parameter]
-    public EventCallback<Weapon?> AttackClicked { get; set; }
+    public EventCallback<GameItem?> AttackClicked { get; set; }
  
     protected override void OnInitialized()
     {
@@ -38,6 +38,6 @@
     public void OnAttackClicked()
     {
         var weapon = selectedWeaponId > 0 ? WeaponList.First(f => f.Id == selectedWeaponId) : null;
-        AttackClicked.InvokeAsync(weapon as Weapon);
+        AttackClicked.InvokeAsync(weapon);
     }
 }
