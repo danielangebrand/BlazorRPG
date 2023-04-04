@@ -3,6 +3,7 @@
     <Items>
         <Tab Name="inventory">Inventory</Tab>
         <Tab Name="quests">Quests</Tab>
+        <Tab Name="recipes">Quests</Tab>
     </Items>
     <Content>
         <TabPanel Name="inventory">
@@ -51,11 +52,39 @@
                 </Table>
             </div>
         </TabPanel>
+        <TabPanel Name="recipes">
+            <div class="table-wrapper-scroll-y my-custom-scrollbar">
+                <Table Bordered="true" Hoverable="true" Narrow="true" Striped="true"
+                       Style="background-color: white">
+                    <TableHeader>
+                        <TableRowCell>Name</TableRowCell>
+                        <TableRowCell></TableRowCell>
+                    </TableHeader>
+                    <TableBody>
+                        @foreach (var recipe in Player.Recipes)
+                        {
+                        <TableRow>
+                            <TableRowCell>@recipe.Name</TableRowCell>
+                            <TableRowCell>
+                                <Blazorise.Button id="craft-item-btn" Size="Size.Small" Color="Color.Secondary"
+                                        Outline="true" Clicked="() => CraftItemClicked.InvokeAsync(recipe)">
+                                    Craft
+                                </Blazorise.Button>
+                            </TableRowCell>
+                        </TableRow>
+                        }
+                    </TableBody>
+                </Table>
+            </div>
+        </TabPanel>
     </Content>
 </Tabs>
 
 @code {
     private string _selectedTab = "inventory";
+
+    [Parameter]
+    public EventCallback<Recipe> CraftItemClicked { get; set;  }
 
     [Parameter]
     public Player Player { get; set; } = new Player();

@@ -8,6 +8,7 @@ using DungeonsOfDoomBlazor.GameEngine.Models.World;
 using DungeonsOfDoomBlazor.GameEngine.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -55,6 +56,10 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
             if (!CurrentPlayer.Inventory.Weapons.Any()) CurrentPlayer.Inventory.AddItem(ItemFactory.CreateGameItem(1001));
 
             CurrentPlayer.Inventory.AddItem(ItemFactory.CreateGameItem(2001));
+            CurrentPlayer.LearnRecipe(RecipeFactory.GetRecipeById(1));
+            CurrentPlayer.Inventory.AddItem(ItemFactory.CreateGameItem(3001));
+            CurrentPlayer.Inventory.AddItem(ItemFactory.CreateGameItem(3002));
+            CurrentPlayer.Inventory.AddItem(ItemFactory.CreateGameItem(3003));
         }
         public void ChangeGender()
         {
@@ -119,15 +124,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
                     if (CurrentPlayer.Inventory.HasAllTheseItems(quest.ItemsToComplete))
                     {
                         // Remove the quest completion items from the player's inventory
-                        foreach (ItemQuantity itemQuantity in quest.ItemsToComplete)
-                        {
-                            for (int i = 0; i < itemQuantity.Quantity; i++)
-                            {
-                                CurrentPlayer.Inventory.RemoveItem(
-                                    CurrentPlayer.Inventory.Items.First(
-                                        item => item.Id == itemQuantity.ItemId));
-                            }
-                        }
+                        CurrentPlayer.Inventory.RemoveItems(quest.ItemsToComplete);
 
                         // give the player the quest rewards
                         var messageLines = new List<string>();
@@ -242,12 +239,43 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
 
         public void ConsumeCurrentItem(GameItem? item)
         {
-            if (item is null || item.Category != ItemCategory.Consumable) AddDisplayMessage("Item Warning!", "You must select a consumable to use.");
-            return;
-
+            if (item is null || item.Category != ItemCategory.Consumable)
+            {
+                AddDisplayMessage("Item Warning!", "You must select a consumable to use.");
+                return;
+            }
             CurrentPlayer.CurrentConsumable = item;
             var message = CurrentPlayer.UseCurrentConsumable(CurrentPlayer);
             AddDisplayMessage(message);
+        }
+        public void CraftItemUsing(Recipe recipe)
+        {
+            _ = recipe ?? throw new ArgumentNullException(nameof(recipe));
+            var lines = new List<string>();
+
+            if (CurrentPlayer.Inventory.HasAllTheseItems(recipe.Ingredients))
+            {
+                CurrentPlayer.Inventory.RemoveItems(recipe.Ingredients);
+                foreach (ItemQuantity itemQuantity in recipe.Output)
+                {
+                    for (int i = 0; i < itemQuantity.Quantity; i++) 
+                    { 
+                        GameItem outputItem = ItemFactory.CreateGameItem(itemQuantity.ItemId);
+                        CurrentPlayer.Inventory.AddItem(outputItem);
+                        lines.Add($"You craft one {outputItem.Name}");
+                    }
+                    AddDisplayMessage("Item Creation", lines);
+                }
+            }
+            else
+            {
+                lines.Add("You do not have the required ingredients: ");
+                foreach (ItemQuantity itemQuantity in recipe.Ingredients)
+                {
+                    lines.Add($" {itemQuantity.Quantity} {ItemFactory.GetItemName(itemQuantity.ItemId)}");
+                }
+                AddDisplayMessage("Item Creation", lines);
+            }
         }
     }
 }

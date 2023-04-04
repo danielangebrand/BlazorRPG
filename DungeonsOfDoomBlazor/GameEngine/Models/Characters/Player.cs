@@ -6,7 +6,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models.Characters
 {
     public class Player : Character
     {
-
+        public IList<Recipe> Recipes { get; set; } = new List<Recipe>();
         public int X { get; set; }
         public int Y { get; set; }
         public string CharacterClass { get; set; } = string.Empty;
@@ -28,6 +28,10 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models.Characters
         {
             Gender g = (Gender)gender;
             return g;
+        }
+        public void LearnRecipe(Recipe recipe)
+        {
+            if (!Recipes.Any(r => r.Id == recipe.Id)) Recipes.Add(recipe);
         }
         public void AddXP(int xp)
         {

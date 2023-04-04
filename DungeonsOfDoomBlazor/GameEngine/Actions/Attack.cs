@@ -38,7 +38,6 @@ namespace DungeonsOfDoomBlazor.GameEngine.Actions
                 target.TakeDamage(dmg);
                 message = $"{actorName} hit {targetName} for {dmg} point{(dmg > 1 ? "s" : "")}.";
             }
-            //string message = dmg == 0 ? $"{actorName} missed {targetName}." : (target.TakeDamage(dmg), $"{actorName} hit {targetName} for {dmg} point{(dmg > 1 ? "s" : "")}.");
             return new DisplayMessage(title, message);
         }
     }

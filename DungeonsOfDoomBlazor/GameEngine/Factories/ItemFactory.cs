@@ -25,6 +25,12 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories
             BuildWeapon(1502, "Rat Claws", "", 0, "1d2");
             BuildWeapon(1503, "Spider fangs", "", 0, "1d4");
             BuildWeapon(1504, "ChatGPT4 VIP-pass", "", 0, "2d4");
+
+            BuildHealingItem(2001, "Snus", "It can really lighten up your day!", 5, 2);
+            BuildMiscellaneousItem(3001, "Tobacco", "Addictive!", 2);
+            BuildMiscellaneousItem(3002, "Old socks", "This sets the flavor", 2);
+            BuildMiscellaneousItem(3003, "Pine needles", "Sets flavor!", 1);
+
             BuildMiscellaneousItem(9001, "Snake fangs", "", 1);
             BuildMiscellaneousItem(9002, "Snakeskin", "", 2);
             BuildMiscellaneousItem(9003, "Rat thong", "", 1);
@@ -33,7 +39,6 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories
             BuildMiscellaneousItem(9006, "Spider silk", "", 2);
             BuildMiscellaneousItem(9007, "Dirty Underwear", "This odor makes monsters smell me from a mile away.. ", -10);
             BuildMiscellaneousItem(9008, "GitHub login", "Hm.. This might come in handy if I encounter JavaScript in the future..", 2);
-            BuildHealingItem(2001, "Snus", "It can really lighten up your day!", 5, 2);
         }
 
         private static void BuildHealingItem(int id, string name, string description, int price, int healEffect)
@@ -58,5 +63,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories
             wpn.Action = new Attack(wpn, dmg);
             standardGameItems.Add(wpn);
         }
+
+        public static string GetItemName(int id) => standardGameItems.FirstOrDefault(i => i.Id == id)?.Name ?? "";
     }
 }
