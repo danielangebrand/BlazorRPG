@@ -53,10 +53,8 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories
             var standardItem = standardGameItems.FirstOrDefault(i => i.Id == id);
             return standardItem.Clone();
         }
-        public static void BuildMiscellaneousItem(int id, string name, string description, int price)
-        {
+        static void BuildMiscellaneousItem(int id, string name, string description, int price) =>
             standardGameItems.Add(new GameItem(id, ItemCategory.Miscellaneous, name, description, price));
-        }
         static void BuildWeapon(int id, string name, string description, int price, string dmg)
         {
             var wpn = new GameItem(id, ItemCategory.Weapon, name, description, price, true);

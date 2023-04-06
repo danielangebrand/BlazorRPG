@@ -5,7 +5,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models
     public class Recipe
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public IList<ItemQuantity> Ingredients { get; set; } = new List<ItemQuantity>();
         public IList<ItemQuantity> Output { get; set; } = new List<ItemQuantity>();
         public Recipe(int id, string name)

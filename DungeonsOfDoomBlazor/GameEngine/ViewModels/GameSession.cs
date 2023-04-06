@@ -20,7 +20,8 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
         readonly int _maximumMessagesCount = 100;
         readonly World _currentWorld;
         readonly IDiceService _diceService;
-        public Player CurrentPlayer { get; private set; }
+        private readonly Dictionary<string, Action> _userInputAction = new Dictionary<string, Action>();
+        public Player CurrentPlayer { get; private set; } 
 
         public Location CurrentLocation { get; private set; }
 
@@ -31,6 +32,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
 
         public Merchant? CurrentMerchant { get; set; }
 
+
         public GameSession(int maxMessageCount) : this()
         {
             _maximumMessagesCount = maxMessageCount;
@@ -39,7 +41,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
         public GameSession(IDiceService? diceService = null)
         {
             _diceService = diceService ?? DiceService.Instance;
-
+            InitializeUserInputActions();
             CurrentPlayer = new Player
             {
                 Name = "Mojo man",
@@ -61,6 +63,19 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
             CurrentPlayer.Inventory.AddItem(ItemFactory.CreateGameItem(3002));
             CurrentPlayer.Inventory.AddItem(ItemFactory.CreateGameItem(3003));
         }
+
+        private void InitializeUserInputActions()
+        {
+            _userInputAction.Add("W", () => Movement.MoveNorth());
+            _userInputAction.Add("A", () => Movement.MoveWest());
+            _userInputAction.Add("S", () => Movement.MoveSouth());
+            _userInputAction.Add("D", () => Movement.MoveEast()); 
+            _userInputAction.Add("ARROWUP", () => Movement.MoveNorth());
+            _userInputAction.Add("ARROWLEFT", () => Movement.MoveWest());
+            _userInputAction.Add("ARROWDOWN", () => Movement.MoveSouth());
+            _userInputAction.Add("ARROWRIGHT", () => Movement.MoveEast());
+        }
+
         public void ChangeGender()
         {
             Gender g = (Gender)Random.Shared.Next(1, 4);
@@ -123,10 +138,8 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
                 {
                     if (CurrentPlayer.Inventory.HasAllTheseItems(quest.ItemsToComplete))
                     {
-                        // Remove the quest completion items from the player's inventory
                         CurrentPlayer.Inventory.RemoveItems(quest.ItemsToComplete);
 
-                        // give the player the quest rewards
                         var messageLines = new List<string>();
                         CurrentPlayer.AddXP(quest.RewardExperiencePoints);
                         messageLines.Add($"You receive {quest.RewardExperiencePoints} experience points");
@@ -189,10 +202,6 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
             var message = currentWeapon.PerformAction(CurrentPlayer, CurrentMonster);
             AddDisplayMessage(message);
 
-            /*TODO:
-             * Uppdatera wpn list efter att man sålt ett vapen?
-            */
-
             if (!CurrentMonster.IsAlive)
             {
                 Death(CurrentMonster);
@@ -251,7 +260,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
         public void CraftItemUsing(Recipe recipe)
         {
             _ = recipe ?? throw new ArgumentNullException(nameof(recipe));
-            var lines = new List<string>();
+            var messages = new List<string>();
 
             if (CurrentPlayer.Inventory.HasAllTheseItems(recipe.Ingredients))
             {
@@ -262,20 +271,28 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
                     { 
                         GameItem outputItem = ItemFactory.CreateGameItem(itemQuantity.ItemId);
                         CurrentPlayer.Inventory.AddItem(outputItem);
-                        lines.Add($"You craft one {outputItem.Name}");
+                        messages.Add($"You craft one {outputItem.Name}");
                     }
-                    AddDisplayMessage("Item Creation", lines);
+                    AddDisplayMessage("Item Creation", messages);
                 }
             }
             else
             {
-                lines.Add("You do not have the required ingredients: ");
+                messages.Add("You do not have the required ingredients: ");
                 foreach (ItemQuantity itemQuantity in recipe.Ingredients)
                 {
-                    lines.Add($" {itemQuantity.Quantity} {ItemFactory.GetItemName(itemQuantity.ItemId)}");
+                    messages.Add($" {itemQuantity.Quantity} {ItemFactory.GetItemName(itemQuantity.ItemId)}");
                 }
-                AddDisplayMessage("Item Creation", lines);
+                AddDisplayMessage("Item Creation", messages);
             }
+        }
+
+        public void ProcessKeyPress(KeyProcessingEventArgs args)
+        {
+            _ = args ?? throw new ArgumentNullException(nameof(args));
+
+            var key = args.Key.ToUpper();
+            if (_userInputAction.ContainsKey(key)) _userInputAction[key].Invoke();
         }
     }
 }

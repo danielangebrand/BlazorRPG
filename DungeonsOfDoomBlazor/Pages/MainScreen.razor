@@ -1,52 +1,64 @@
 ﻿@page "/"
 @inject IGameSession ViewModel
+@inject IJSRuntime jsRuntime
 
-<Row Style="height: 5vh; min-height: 32px">
-    <Column ColumnSize="ColumnSize.Is12" Style="background-color: aliceblue">
-        <Heading Size="HeadingSize.Is3">Dungeons of Doom</Heading>
-    </Column>
-</Row>
-<Row Style="height: 60vh">
-    <Column ColumnSize="ColumnSize.Is3.OnWidescreen.Is12" Style="background-color: aquamarine">
-        <PlayerComponent Player="@ViewModel.CurrentPlayer" />
-        <Blazorise.Button Color="Color.Secondary" Outline="true" Clicked="@ViewModel.ChangeGender">Change Gender</Blazorise.Button>
-    </Column>
-    <Column ColumnSize="ColumnSize.Is9.OnWidescreen.Is12" Style="background-color: beige">
-        <Row Margin="Margin.Is2.OnY">
-            <Column ColumnSize="ColumnSize.Is8.OnWidescreen.Is12">
-                <DisplayMessageListView Messages="@ViewModel.Messages" />
-            </Column>
-            <Column ColumnSize="ColumnSize.Is4.OnWidescreen.Is12">
-                <LocationComponent Location="@ViewModel.CurrentLocation" />
-                <MonsterComponent Monster="@ViewModel.CurrentMonster" />
-                <MerchantComponent Merchant="@ViewModel.CurrentMerchant" Player="@ViewModel.CurrentPlayer"
-                InventoryChanged="@OnInventoryChanged" />
+<div @onkeydown="@KeyDown" tabindex="0" @ref="pageRoot">
+    <Row Style="height: 5vh; min-height: 32px">
+        <Column ColumnSize="ColumnSize.Is12" Style="background-color: aliceblue">
+            <Heading Size="HeadingSize.Is3">Dungeons of Doom</Heading>
+        </Column>
+    </Row>
+    <Row Style="height: 60vh">
+        <Column ColumnSize="ColumnSize.Is3.OnWidescreen.Is12" Style="background-color: aquamarine">
+            <PlayerComponent Player="@ViewModel.CurrentPlayer" />
+            <Blazorise.Button Color="Color.Secondary" Outline="true" Clicked="@ViewModel.ChangeGender">Change Gender</Blazorise.Button>
+        </Column>
+        <Column ColumnSize="ColumnSize.Is9.OnWidescreen.Is12" Style="background-color: beige">
+            <Row Margin="Margin.Is2.OnY">
+                <Column ColumnSize="ColumnSize.Is8.OnWidescreen.Is12">
+                    <DisplayMessageListView Messages="@ViewModel.Messages" />
+                </Column>
+                <Column ColumnSize="ColumnSize.Is4.OnWidescreen.Is12">
+                    <LocationComponent Location="@ViewModel.CurrentLocation" />
+                    <MonsterComponent Monster="@ViewModel.CurrentMonster" />
+                    <MerchantComponent Merchant="@ViewModel.CurrentMerchant" Player="@ViewModel.CurrentPlayer"
+                                       InventoryChanged="@OnInventoryChanged" />
 
-            </Column>
-        </Row>
-    </Column>
-</Row>
-<Row Margin="Margin.Is0" Style="height: 33vh">
-    <Column ColumnSize="ColumnSize.Is3.OnWidescreen.Is12" Padding="Padding.Is2.OnY"
-            Style="background-color: burlywood">
-        <PlayerTabs Player="@ViewModel.CurrentPlayer" CraftItemClicked="@ViewModel.CraftItemUsing" />
-    </Column>
-    <Column ColumnSize="ColumnSize.Is9.OnWidescreen.Is12" Style="background-color: lavender">
-        <Row Margin="Margin.Is2.OnY">
-            <Column ColumnSize="ColumnSize.Is8.OnWidescreen.Is12">
-                <CombatComponent WeaponList="@ViewModel.CurrentPlayer.Inventory.Weapons"
-                AttackClicked="@ViewModel.AttackCurrentMonster"
-                LocationHasMonster="@ViewModel.HasMonster"
-                ConsumableList="@ViewModel.CurrentPlayer.Inventory.Consumables"
-                ConsumeClicked="@ViewModel.ConsumeCurrentItem" />
-            </Column>
-            <Column ColumnSize="ColumnSize.Is4.OnWidescreen.Is12">
-                <MovementComponent Movement="@ViewModel.Movement" LocationChanged="@ViewModel.OnLocationChanged" />
-            </Column>
-        </Row>
-    </Column>
-</Row>
+                </Column>
+            </Row>
+        </Column>
+    </Row>
+    <Row Margin="Margin.Is0" Style="height: 33vh">
+        <Column ColumnSize="ColumnSize.Is3.OnWidescreen.Is12" Padding="Padding.Is2.OnY"
+                Style="background-color: burlywood">
+            <PlayerTabs Player="@ViewModel.CurrentPlayer" CraftItemClicked="@ViewModel.CraftItemUsing" />
+        </Column>
+        <Column ColumnSize="ColumnSize.Is9.OnWidescreen.Is12" Style="background-color: lavender">
+            <Row Margin="Margin.Is2.OnY">
+                <Column ColumnSize="ColumnSize.Is8.OnWidescreen.Is12">
+                    <CombatComponent WeaponList="@ViewModel.CurrentPlayer.Inventory.Weapons"
+                                     AttackClicked="@ViewModel.AttackCurrentMonster"
+                                     LocationHasMonster="@ViewModel.HasMonster"
+                                     ConsumableList="@ViewModel.CurrentPlayer.Inventory.Consumables"
+                                     ConsumeClicked="@ViewModel.ConsumeCurrentItem" />
+                </Column>
+                <Column ColumnSize="ColumnSize.Is4.OnWidescreen.Is12">
+                    <MovementComponent Movement="@ViewModel.Movement" LocationChanged="@ViewModel.OnLocationChanged" />
+                </Column>
+            </Row>
+        </Column>
+    </Row>
+</div>
 @code {
+    protected ElementReference pageRoot;
+    protected async override Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+            await jsRuntime.InvokeVoidAsync("SetFocusToElement", pageRoot);    
+    }
+
+    protected void KeyDown(KeyboardEventArgs args) => ViewModel.ProcessKeyPress(args.ToKeyProcessingEventArgs());
+
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     private void OnInventoryChanged() => StateHasChanged();
 

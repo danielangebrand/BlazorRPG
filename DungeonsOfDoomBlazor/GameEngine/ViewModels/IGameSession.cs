@@ -20,5 +20,6 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
         void AddDisplayMessage(DisplayMessage message);
         void ConsumeCurrentItem(GameItem? item);
         void CraftItemUsing(Recipe recipe);
+        void ProcessKeyPress(KeyProcessingEventArgs args);
     }
 }
