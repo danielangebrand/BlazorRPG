@@ -11,5 +11,26 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models.Quests
         public int RewardExperiencePoints { get; set; }
         public int RewardGold { get; set; }
         public IList<ItemQuantity> RewardItems { get; set; } = Array.Empty<ItemQuantity>();
+        public DisplayMessage ToDisplayMessage()
+        {
+            var messages = new List<string>()
+            {
+                Description,
+                "Items to complete the quest:"
+            };
+
+            foreach (ItemQuantity q in ItemsToComplete)
+            {
+                messages.Add(q.QuantityItemDescription);
+            }
+            messages.Add("Rewards for quest completion:");
+            messages.Add($"{RewardExperiencePoints} XP");
+            messages.Add($"{RewardGold} gold");
+            foreach (ItemQuantity q in RewardItems) 
+            {
+                messages.Add(q.QuantityItemDescription);
+            }
+            return new DisplayMessage($"Quest Added - {Name}", messages);
+        }
     }
 }

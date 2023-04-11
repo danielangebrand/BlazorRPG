@@ -17,9 +17,9 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
         void OnLocationChanged(Location location);
         void ChangeGender();
         void AttackCurrentMonster(GameItem? currentWeapon);
-        void AddDisplayMessage(DisplayMessage message);
         void ConsumeCurrentItem(GameItem? item);
         void CraftItemUsing(Recipe recipe);
         void ProcessKeyPress(KeyProcessingEventArgs args);
+        void AddDisplayMessage(DisplayMessage message);
     }
 }

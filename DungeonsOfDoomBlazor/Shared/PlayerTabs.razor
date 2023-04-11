@@ -1,4 +1,5 @@
-﻿
+﻿@using DungeonsOfDoomBlazor.GameEngine.Models.Quests;
+
 <Tabs SelectedTab="@_selectedTab" Pills="true" SelectedTabChanged="OnSelectedTabChanged">
     <Items>
         <Tab Name="inventory">Inventory</Tab>
@@ -44,7 +45,9 @@
                         @foreach (var quest in Player.Quests)
                         {
                             <TableRow>
-                                <TableRowCell>@quest.PlayerQuest.Name</TableRowCell>
+                                <TableRowCell id="quest-name-cell" Style="cursor:pointer" Clicked="() => OnQuestClicked(quest.PlayerQuest)">
+                                    @quest.PlayerQuest.Name
+                                </TableRowCell>
                                 <TableRowCell>@(quest.IsCompleted ? "Yes" : "No")</TableRowCell>
                                 </TableRow>
                         }
@@ -63,15 +66,17 @@
                     <TableBody>
                         @foreach (var recipe in Player.Recipes)
                         {
-                        <TableRow>
-                            <TableRowCell>@recipe.Name</TableRowCell>
-                            <TableRowCell>
-                                <Blazorise.Button id="craft-item-btn" Size="Size.Small" Color="Color.Secondary"
-                                        Outline="true" Clicked="() => CraftItemClicked.InvokeAsync(recipe)">
-                                    Craft
-                                </Blazorise.Button>
-                            </TableRowCell>
-                        </TableRow>
+                            <TableRow>
+                                <TableRowCell id="recipe-name-cell" Style="cursor: pointer" Clicked="() => OnRecipeClicked(recipe)">
+                                    @recipe.Name
+                                </TableRowCell>
+                                <TableRowCell>
+                                    <Blazorise.Button id="craft-item-btn" Size="Size.Small" Color="Color.Secondary"
+                                                  Outline="true" Clicked="() => CraftItemClicked.InvokeAsync(recipe)">
+                                        Craft
+                                    </Blazorise.Button>
+                                </TableRowCell>
+                            </TableRow>
                         }
                     </TableBody>
                 </Table>
@@ -82,9 +87,11 @@
 
 @code {
     private string _selectedTab = "inventory";
+    [Parameter]
+    public EventCallback<DisplayMessage> DisplayMessagesCreated { get; set; }
 
     [Parameter]
-    public EventCallback<Recipe> CraftItemClicked { get; set;  }
+    public EventCallback<Recipe> CraftItemClicked { get; set; }
 
     [Parameter]
     public Player Player { get; set; } = new Player();
@@ -93,4 +100,7 @@
     {
         _selectedTab = newTab;
     }
+    private void OnQuestClicked(Quest quest) => DisplayMessagesCreated.InvokeAsync(quest.ToDisplayMessage());
+    private void OnRecipeClicked(Recipe recipe) => DisplayMessagesCreated.InvokeAsync(recipe.ToDisplayMessage());
+
 }
