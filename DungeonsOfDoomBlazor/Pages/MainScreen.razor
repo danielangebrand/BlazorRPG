@@ -23,7 +23,6 @@
                     <MonsterComponent Monster="@ViewModel.CurrentMonster" />
                     <MerchantComponent Merchant="@ViewModel.CurrentMerchant" Player="@ViewModel.CurrentPlayer"
                                        InventoryChanged="@OnInventoryChanged" />
-
                 </Column>
             </Row>
         </Column>
@@ -53,15 +52,24 @@
 </div>
 @code {
     protected ElementReference pageRoot;
+
     protected async override Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
             await jsRuntime.InvokeVoidAsync("SetFocusToElement", pageRoot);    
     }
 
-    protected void KeyDown(KeyboardEventArgs args) => ViewModel.ProcessKeyPress(args.ToKeyProcessingEventArgs());
+    protected void KeyDown(KeyboardEventArgs args) => 
+    ViewModel.ProcessKeyPress(args.ToKeyProcessingEventArgs());
 
     [System.Diagnostics.CodeAnalysis.ExcludeFromCodeCoverage]
     private void OnInventoryChanged() => StateHasChanged();
+
+    protected override void OnInitialized()
+    {
+        DisplayMessageBroker.Instance.OnMessageRaised += OnGameMessageRaised;
+    }
+
+    private void OnGameMessageRaised(object sender, DisplayMessage message) => ViewModel.AddDisplayMessage(message);
 
 }

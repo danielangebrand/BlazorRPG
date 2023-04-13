@@ -19,8 +19,9 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
     {
         readonly int _maximumMessagesCount = 100;
         readonly World _currentWorld;
-        readonly IDiceService _diceService;
-        private readonly Dictionary<string, Action> _userInputAction = new Dictionary<string, Action>();
+        readonly IDiceService _diceService = DiceService.Instance;
+        readonly Battle _battle;
+        readonly Dictionary<string, Action> _userInputAction = new Dictionary<string, Action>();
         public Player CurrentPlayer { get; private set; } 
 
         public Location CurrentLocation { get; private set; }
@@ -32,29 +33,37 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
 
         public Merchant? CurrentMerchant { get; set; }
 
-
-        public GameSession(int maxMessageCount) : this()
+        public GameSession()
         {
-            _maximumMessagesCount = maxMessageCount;
-        }
-
-        public GameSession(IDiceService? diceService = null)
-        {
-            _diceService = diceService ?? DiceService.Instance;
             InitializeUserInputActions();
+            _battle = new Battle(
+                () => OnLocationChanged(_currentWorld.GetHomeLocation()),
+                () => GetMonsterAtCurrentLocation(),
+                _diceService);
+
             CurrentPlayer = new Player
             {
                 Name = "Mojo man",
                 CharacterClass = CharacterClass.Nerd.ToString(),
                 Health = 30,
                 Damage = 10,
+                Gold = 100,
                 X = 0,
                 Y = 0,
-                G = Gender.Undecided
+                Level = 1,
+                Dexterity = _diceService.Roll("6d3").Value,
+                Strength = _diceService.Roll("6d3").Value,
+                ArmorClass = 10,
+                G = Gender.Undecided,
+                DeathMessage = "Someone found you and carried you home. Your wounds have healed and you think to yourself, 'En sån här chans får man bara en gång i live´..' "
             };
+
             _currentWorld = WorldFactory.CreateWorld();
+
             Movement = new Movement(_currentWorld);
+
             CurrentLocation = this.Movement.CurrentLocation;
+
             if (!CurrentPlayer.Inventory.Weapons.Any()) CurrentPlayer.Inventory.AddItem(ItemFactory.CreateGameItem(1001));
 
             CurrentPlayer.Inventory.AddItem(ItemFactory.CreateGameItem(2001));
@@ -63,6 +72,37 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
             CurrentPlayer.Inventory.AddItem(ItemFactory.CreateGameItem(3002));
             CurrentPlayer.Inventory.AddItem(ItemFactory.CreateGameItem(3003));
         }
+        public GameSession(int maxMessageCount, IDiceService? diceService = null) : this()
+        {
+            _maximumMessagesCount = maxMessageCount;
+            _diceService = diceService ?? DiceService.Instance;
+        }
+
+        //public GameSession(IDiceService? diceService = null)
+        //{
+        //    _diceService = diceService ?? DiceService.Instance;
+        //    InitializeUserInputActions();
+        //    CurrentPlayer = new Player
+        //    {
+        //        Name = "Mojo man",
+        //        CharacterClass = CharacterClass.Nerd.ToString(),
+        //        Health = 30,
+        //        Damage = 10,
+        //        X = 0,
+        //        Y = 0,
+        //        G = Gender.Undecided
+        //    };
+        //    _currentWorld = WorldFactory.CreateWorld();
+        //    Movement = new Movement(_currentWorld);
+        //    CurrentLocation = this.Movement.CurrentLocation;
+        //    if (!CurrentPlayer.Inventory.Weapons.Any()) CurrentPlayer.Inventory.AddItem(ItemFactory.CreateGameItem(1001));
+
+        //    CurrentPlayer.Inventory.AddItem(ItemFactory.CreateGameItem(2001));
+        //    CurrentPlayer.LearnRecipe(RecipeFactory.GetRecipeById(1));
+        //    CurrentPlayer.Inventory.AddItem(ItemFactory.CreateGameItem(3001));
+        //    CurrentPlayer.Inventory.AddItem(ItemFactory.CreateGameItem(3002));
+        //    CurrentPlayer.Inventory.AddItem(ItemFactory.CreateGameItem(3003));
+        //}
 
         private void InitializeUserInputActions()
         {
@@ -148,6 +188,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
         {
             CurrentMonster = CurrentLocation.HasMonster() ? CurrentLocation.GetMonster() : null;
             if (CurrentMonster != null) AddDisplayMessage("Monster Encountered:", $"You see a {CurrentMonster.Name} here!");
+            //DisplayMessageBroker.Instance.RaiseMessage(new DisplayMessage("Monster TESTING:", $"You see a {CurrentMonster.Name} here!"));
         }
 
         private void AddDisplayMessage(string title, string message) =>
@@ -170,60 +211,40 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
 
         public void AttackCurrentMonster(GameItem? currentWeapon)
         {
-            if (CurrentMonster == null) return;
-
-            if (currentWeapon == null)
+            if (CurrentMonster != null)
             {
-                AddDisplayMessage("Combat Warning!", "You have no selected weapon.");
-                return;
-            }
-            CurrentPlayer.CurrentWeapon = currentWeapon;
-            var message = currentWeapon.PerformAction(CurrentPlayer, CurrentMonster);
-            AddDisplayMessage(message);
-
-            if (!CurrentMonster.IsAlive)
-            {
-                Death(CurrentMonster);
-                GetMonsterAtCurrentLocation();
-            }
-            else
-            {
-                message = CurrentMonster.UseCurrentWeaponOn(CurrentPlayer);
-                AddDisplayMessage(message);
-            }
-            if (!CurrentPlayer.IsAlive)
-            {
-                Death(CurrentPlayer);
+                CurrentPlayer.CurrentWeapon = currentWeapon;
+                _battle.Attack(CurrentPlayer, CurrentMonster);
             }
         }
-        private void Death(Character character)
-        {
-            if (character == CurrentPlayer)
-            {
-                AddDisplayMessage($"{CurrentPlayer.Name} Defeated", $"The {CurrentMonster.Name} {CurrentMonster.KillMessage}");
-                this.OnLocationChanged(_currentWorld.LocationAt(0, -1));
-                AddDisplayMessage("You wake up in your home", $"Someone found you and carried you home. Your wounds have healed and you think to yourself, 'En sån här chans får man bara en gång i live´..' ");
-                CurrentPlayer.FullHeal();
-            }
-            else if (character == CurrentMonster)
-            {
-                var messageLines = new List<string>();
-                messageLines.Add($"You've defeated the {CurrentMonster.Name}!");
+        //private void Death(Character character)
+        //{
+        //    if (character == CurrentPlayer)
+        //    {
+        //        AddDisplayMessage($"{CurrentPlayer.Name} Defeated", $"The {CurrentMonster.Name} {CurrentMonster.KillMessage}");
+        //        this.OnLocationChanged(_currentWorld.LocationAt(0, -1));
+        //        AddDisplayMessage("You wake up in your home", $"Someone found you and carried you home. Your wounds have healed and you think to yourself, 'En sån här chans får man bara en gång i live´..' ");
+        //        CurrentPlayer.FullHeal();
+        //    }
+        //    else if (character == CurrentMonster)
+        //    {
+        //        var messageLines = new List<string>();
+        //        messageLines.Add($"You've defeated the {CurrentMonster.Name}!");
 
-                CurrentPlayer.AddXP(CurrentMonster.RewardExperiencePoints);
-                messageLines.Add($"You've recieved {CurrentMonster.RewardExperiencePoints}XP!");
+        //        CurrentPlayer.AddXP(CurrentMonster.RewardExperiencePoints);
+        //        messageLines.Add($"You've recieved {CurrentMonster.RewardExperiencePoints}XP!");
 
-                CurrentPlayer.ReceiveGold(CurrentMonster.Gold);
-                messageLines.Add($"You found ${CurrentMonster.Gold}!");
+        //        CurrentPlayer.ReceiveGold(CurrentMonster.Gold);
+        //        messageLines.Add($"You found ${CurrentMonster.Gold}!");
 
-                foreach (GameItem item in CurrentMonster.Inventory.Items)
-                {
-                    CurrentPlayer.Inventory.AddItem(item);
-                    messageLines.Add($"You've recieved a {item.Name}");
-                }
-                AddDisplayMessage("Monster Defeated", messageLines);
-            }
-        }
+        //        foreach (GameItem item in CurrentMonster.Inventory.Items)
+        //        {
+        //            CurrentPlayer.Inventory.AddItem(item);
+        //            messageLines.Add($"You've recieved a {item.Name}");
+        //        }
+        //        AddDisplayMessage("Monster Defeated", messageLines);
+        //    }
+        //}
 
         public void ConsumeCurrentItem(GameItem? item)
         {

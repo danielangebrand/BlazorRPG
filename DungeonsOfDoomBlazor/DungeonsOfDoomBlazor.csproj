@@ -7,6 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="GameEngine\Data\items.json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="GameEngine\Data\items.json" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Blazorise" Version="1.2.2" />
     <PackageReference Include="Blazorise.Bootstrap" Version="1.2.2" />
     <PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.2.2" />

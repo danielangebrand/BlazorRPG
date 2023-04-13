@@ -21,12 +21,11 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models.Characters
         public GameItem? CurrentWeapon { get; set; }
         public bool HasCurrentWeapon => CurrentWeapon != null;
         public virtual string Name { get; set; } = string.Empty;
-
-        public virtual int Health
-        {
-            get => _health;
-            set { _health = value; }
-        }
+        public int Dexterity { get; set; } = 10;
+        public int Strength { get; set; } = 10;
+        public int ArmorClass { get; set; } = 10;
+        public string DeathMessage { get; set; } = string.Empty;
+        public virtual int Health { get; set; }
         public int Damage { get; set; }
         public bool IsAlive => Health > 0;
         public string DamageRoll { get; set; } = string.Empty;

@@ -1,50 +1,45 @@
 ﻿using DungeonsOfDoomBlazor.GameEngine.Actions;
+using DungeonsOfDoomBlazor.GameEngine.Factories.DTO;
 using DungeonsOfDoomBlazor.GameEngine.Models.Enum;
 using DungeonsOfDoomBlazor.GameEngine.Models.Items;
+using DungeonsOfDoomBlazor.Helpers;
 
 namespace DungeonsOfDoomBlazor.GameEngine.Factories
 {
     internal static class ItemFactory
     {
         static List<GameItem> standardGameItems = new List<GameItem>();
-
-        //    new Weapon(1001, "Pointy Stick", "Pokeballs are trending. Everything with poke is pretty neat! Atk: +1-2.", 5, "1d2"),
-        //    new Weapon(1002, "Rusty 'ol S", "Your grandfathers sword. This could come in handy.. ", 1, "1d5"),
-        //    new Weapon(1003, "Gentlemens Club", "Welcome to the patriarchy! Atk: +5-10. Restriction: Usable by men only.",50, "3d4"),
-        //    new Weapon(1004, "Dagger of Swagger", "Swag is all you need! Atk: +7-15.",200, "3d5"),
-        //    BuildMiscellaneousItem(9001, "Snake fang", "FANK YOU!", 1),
-        //    BuildMiscellaneousItem(9002, "Snakeskin", "", 2);
+        const string _resourceNameSpace = "DungeonsOfDoomBlazor.GameEngine.Data.items.json";
 
         static ItemFactory()
         {
-            BuildWeapon(1001, "Pointy Stick", "Pokeballs and Pokemon are trending. Everything with poke is pretty neat! Atk +1-2", 5, "1d2");
-            BuildWeapon(1002, "Rusty 'ol S", "Your grandfathers sword. This could come in handy.. ", 1, "1d5");
-            BuildWeapon(1003, "Gentlemens Club", "Welcome to the patriarchy! Atk: +5-10. Restriction: Usable by men only.", 50, "3d4");
-            BuildWeapon(1004, "Dagger of Swagger", "Swag is all you need! Atk: +7-15.", 200, "3d5");
-            BuildWeapon(1501, "Snake fangs", "", 0, "1d2");
-            BuildWeapon(1502, "Rat Claws", "", 0, "1d2");
-            BuildWeapon(1503, "Spider fangs", "", 0, "1d4");
-            BuildWeapon(1504, "ChatGPT4 VIP-pass", "", 0, "2d4");
+            Load();
+        }
 
-            BuildHealingItem(2001, "Snus", "It can really lighten up your day!", 5, 2);
-            BuildMiscellaneousItem(3001, "Tobacco", "Addictive!", 2);
-            BuildMiscellaneousItem(3002, "Old socks", "This sets the flavor", 2);
-            BuildMiscellaneousItem(3003, "Pine needles", "Sets flavor!", 1);
-
-            BuildMiscellaneousItem(9001, "Snake fangs", "", 1);
-            BuildMiscellaneousItem(9002, "Snakeskin", "", 2);
-            BuildMiscellaneousItem(9003, "Rat thong", "", 1);
-            BuildMiscellaneousItem(9004, "Rat fur", "", 2);
-            BuildMiscellaneousItem(9005, "Spider fangs", "", 1);
-            BuildMiscellaneousItem(9006, "Spider silk", "", 2);
-            BuildMiscellaneousItem(9007, "Dirty Underwear", "This odor makes monsters smell me from a mile away.. ", -10);
-            BuildMiscellaneousItem(9008, "GitHub login", "Hm.. This might come in handy if I encounter JavaScript in the future..", 2);
+        static void Load()
+        {
+            var templates = JsonSerializationHelper.DeserializeResourceStream<ItemTemplate>(_resourceNameSpace);
+            foreach (var tmp in templates)
+            {
+                switch (tmp.Category)
+                {
+                    case ItemCategory.Weapon:
+                        BuildWeapon(tmp.Id, tmp.Name, tmp.Description, tmp.Price, tmp.Damage);
+                        break;
+                    case ItemCategory.Consumable:
+                        BuildHealingItem(tmp.Id, tmp.Name, tmp.Description, tmp.Price, tmp.Heals);
+                        break;
+                    default:
+                        BuildMiscellaneousItem(tmp.Id, tmp.Name, tmp.Description, tmp.Price);
+                        break;
+                }
+            }
         }
 
         private static void BuildHealingItem(int id, string name, string description, int price, int healEffect)
         {
             GameItem consumable = new GameItem(id, ItemCategory.Consumable, name, description, price);
-            consumable.Action = new Heal(consumable, healEffect);
+            consumable.SetAction(new Heal(consumable, healEffect));
             standardGameItems.Add(consumable);
         }
 
@@ -58,7 +53,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories
         static void BuildWeapon(int id, string name, string description, int price, string dmg)
         {
             var wpn = new GameItem(id, ItemCategory.Weapon, name, description, price, true);
-            wpn.Action = new Attack(wpn, dmg);
+            wpn.SetAction(new Attack(wpn, dmg));
             standardGameItems.Add(wpn);
         }
 

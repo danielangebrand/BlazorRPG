@@ -20,7 +20,10 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories
                         RewardExperiencePoints = 5,
                         Gold = 1,
                         DamageRoll = "1d2",
-                        KillMessage = "does a little dance over your paralyzed body and slowly devours you."
+                        DeathMessage = "does a little dance over your paralyzed body and slowly devours you.",
+                        Dexterity = 15,
+                        Strength = 12,
+                        ArmorClass = 10
                     };
                     snake.CurrentWeapon = ItemFactory.CreateGameItem(1501);
                     AddLootItem(snake, 9001, 25);
@@ -37,7 +40,10 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories
                         RewardExperiencePoints = 5,
                         Gold = 1,
                         DamageRoll = "1d2",
-                        KillMessage = "eats you alive."
+                        DeathMessage = "eats you alive.",
+                        Dexterity = 8,
+                        Strength = 10,
+                        ArmorClass = 10
 
                     };
                     rat.CurrentWeapon = ItemFactory.CreateGameItem(1502);
@@ -55,8 +61,10 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories
                         RewardExperiencePoints = 10,
                         Gold = 3,
                         DamageRoll = "1d4",
-                        KillMessage = "kills you and lay some eggs inside your body."
-
+                        DeathMessage = "kills you and lay some eggs inside your body.",
+                        Dexterity = 12,
+                        Strength = 15,
+                        ArmorClass = 12
                     };
                     giantSpider.CurrentWeapon = ItemFactory.CreateGameItem(1503);
                     AddLootItem(giantSpider, 9005, 25);
@@ -73,7 +81,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories
                         RewardExperiencePoints = 100,
                         Gold = 50,
                         DamageRoll = "2d10",
-                        KillMessage = "wins the argument and declares you stupid."
+                        DeathMessage = "wins the argument and declares you stupid."
                     };
                     geek.CurrentWeapon = ItemFactory.CreateGameItem(1504);
                     AddLootItem(geek, 9007, 25);

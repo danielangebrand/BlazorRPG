@@ -29,13 +29,13 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models
 
             if (item.IsUnique)
             {
-                backpackGrouped.Add(new GroupedInventoryItem { Item = item, Quantity = 1 });
+                backpackGrouped.Add(new GroupedInventoryItem(item, 1));
             }
             else
             {
                 if (backpackGrouped.All(g => g.Item.Id != item.Id))
                 {
-                    backpackGrouped.Add(new GroupedInventoryItem { Item = item, Quantity = 0 });
+                    backpackGrouped.Add(new GroupedInventoryItem(item, 0));
                 }
                 backpackGrouped.First(g => g.Item.Id == item.Id).Quantity++;
             }

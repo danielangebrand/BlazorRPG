@@ -18,7 +18,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories
                     Description = "There are rows of corn growing here, with giant rats between them.",
                     Image = "/images/locations/Farmfields.png"
                 },
-                                new Location
+                new Location
                 {
                     X = -1,
                     Y = -1,
@@ -27,7 +27,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories
                     Image = "/images/locations/Farmhouse.png",
                     MerchantHere = MerchantFactory.GetMerchantById(102)
                 },
-                                                new Location
+                new Location
                 {
                     X = 0,
                     Y = -1,
@@ -42,7 +42,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories
                     Name = "Merchant Shop",
                     Description = "The shop of Sussie, the trader",
                     Image = "/images/locations/trader.png",
-                    MerchantHere = MerchantFactory.GetMerchantById(101)       
+                    MerchantHere = MerchantFactory.GetMerchantById(101)
                 },
 
                 new Location
@@ -78,7 +78,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories
                     Image = "/images/locations/HerbalistsHut.png",
                     MerchantHere = MerchantFactory.GetMerchantById(103),
                     QuestsAvailableHere = new List<Quest> { QuestFactory.GetQuestById(1) }
-                    
+
                 },
                 new Location
                 {

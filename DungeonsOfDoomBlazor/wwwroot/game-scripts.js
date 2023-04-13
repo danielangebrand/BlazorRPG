@@ -1,3 +1,3 @@
-﻿windows.SetFocusToElement = (element) => {
+﻿window.SetFocusToElement = (element) => {
     element.focus();
 };

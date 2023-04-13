@@ -2,9 +2,9 @@
 {
     public enum ItemCategory
     {
-        Miscellaneous = 1,
-        Weapon,
-        Armor,
-        Consumable
+        Weapon = 1,
+        Consumable,
+        Miscellaneous,
+        Armor
     }
 }

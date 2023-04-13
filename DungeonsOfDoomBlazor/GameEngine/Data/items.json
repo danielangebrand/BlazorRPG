@@ -1,0 +1,151 @@
+[
+  {
+    "Id": 1001,
+    "Category": 1,
+    "Name": "Pointy stick",
+    "Description": "Pokeballs and Pokemon are trending. Everything with poke is pretty neat!",
+    "Price": 1,
+    "Damage": "1d2"
+  },
+  {
+    "Id": 1002,
+    "Category": 1,
+    "Name": "Rusty ol' S'",
+    "Description": "Your grandfathers sword. This could come in handy..",
+    "Price": 5,
+    "Damage": "1d5"
+  },
+  {
+    "Id": 1003,
+    "Category": 1,
+    "Name": "Gentlemens Club",
+    "Description": "Welcome to the Patriarchy! Usable by men only.",
+    "Price": 50,
+    "Damage": "2d4"
+  },
+  {
+    "Id": 1004,
+    "Category": 1,
+    "Name": "Dagger of Swagger",
+    "Description": "Swag is all you need!",
+    "Price": 200,
+    "Damage": "3d5"
+  },
+  {
+    "Id": 1501,
+    "Category": 1,
+    "Name": "Snake fang",
+    "Description": "",
+    "Price": 0,
+    "Damage": "1d2"
+  },
+  {
+    "Id": 1502,
+    "Category": 1,
+    "Name": "Rat claw",
+    "Description": "",
+    "Price": 0,
+    "Damage": "1d2"
+  },
+  {
+    "Id": 1503,
+    "Category": 1,
+    "Name": "Spider fang",
+    "Description": "",
+    "Price": 0,
+    "Damage": "1d4"
+  },
+  {
+    "Id": 1504,
+    "Category": 1,
+    "Name": "ChatGPT-4 VIP-pass",
+    "Description": "",
+    "Price": 0,
+    "Damage": "2d4"
+  },
+  {
+    "Id": 2001,
+    "Category": 2,
+    "Name": "Snus",
+    "Description": "It can really lighten up your day!",
+    "Price": 5,
+    "Heals": 2
+  },
+  {
+    "Id": 3001,
+    "Category": 3,
+    "Name": "Tobacco",
+    "Description": "Addictive!",
+    "Price": 1
+  },
+  {
+    "Id": 3002,
+    "Category": 3,
+    "Name": "Old socks",
+    "Description": "Sets the flavor.",
+    "Price": 2
+  },
+  {
+    "Id": 3003,
+    "Category": 3,
+    "Name": "Pine needles",
+    "Description": "Sets the flavor.",
+    "Price": 2
+  },
+  {
+    "Id": 9001,
+    "Category": 3,
+    "Name": "Snake fang",
+    "Description": "",
+    "Price": 1
+  },
+  {
+    "Id": 9002,
+    "Category": 3,
+    "Name": "Snakeskin",
+    "Description": "",
+    "Price": 2
+  },
+  {
+    "Id": 9003,
+    "Category": 3,
+    "Name": "Rat thong",
+    "Description": "Nasty..",
+    "Price": 1
+  },
+  {
+    "Id": 9004,
+    "Category": 3,
+    "Name": "Rat fur",
+    "Description": "",
+    "Price": 2
+  },
+  {
+    "Id": 9005,
+    "Category": 3,
+    "Name": "Spider fang",
+    "Description": "",
+    "Price": 1
+  },
+  {
+    "Id": 9006,
+    "Category": 3,
+    "Name": "Spider silk",
+    "Description": "",
+    "Price": 2
+  },
+  {
+    "Id": 9007,
+    "Category": 3,
+    "Name": "Dirty Underwear",
+    "Description": "This odor makes monsters smell me from a mile away.. ",
+    "Price": -10
+  },
+  {
+    "Id": 9008,
+    "Category": 3,
+    "Name": "GitHub Login",
+    "Description": "Hm.. This might come in handy if I ever encounter JavaScript in the future..",
+    "Price": 300
+  }
+]
