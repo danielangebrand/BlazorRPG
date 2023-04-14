@@ -1,0 +1,94 @@
+[
+  {
+    "Id": 1,
+    "Name": "Snake",
+    "Dex": 15,
+    "Str": 12,
+    "AC": 10,
+    "MaxHP": 4,
+    "WeaponId": 1501,
+    "RewardXP": 5,
+    "Gold": 1,
+    "Image": "/images/monsters/Snake.png",
+    "DeathMessage": "does a little dance over your paralyzed body and slowly devours you.",
+    "LootItems": [
+      {
+        "Id": 9001,
+        "Perc": 25
+      },
+      {
+        "Id": 9002,
+        "Perc": 75
+      }
+    ]
+  },
+  {
+    "Id": 2,
+    "Name": "Rat",
+    "Dex": 8,
+    "Str": 10,
+    "AC": 10,
+    "MaxHP": 5,
+    "WeaponId": 1502,
+    "RewardXP": 5,
+    "Gold": 1,
+    "Image": "/images/monsters/Rat.png",
+    "DeathMessage": "eats you alive.",
+    "LootItems": [
+      {
+        "Id": 9003,
+        "Perc": 25
+      },
+      {
+        "Id": 9004,
+        "Perc": 75
+      }
+    ]
+  },
+  {
+    "Id": 3,
+    "Name": "Giant Spider",
+    "Dex": 12,
+    "Str": 15,
+    "AC": 12,
+    "MaxHP": 10,
+    "WeaponId": 1503,
+    "RewardXP": 10,
+    "Gold": 3,
+    "Image": "/images/monsters/GiantSpider.png",
+    "DeathMessage": "knocks you down, snares you with its web and lays eggs inside of you.",
+    "LootItems": [
+      {
+        "Id": 9005,
+        "Perc": 25
+      },
+      {
+        "Id": 9006,
+        "Perc": 75
+      }
+    ]
+  },
+  {
+    "Id": 4,
+    "Name": "Shrieking Geek",
+    "Dex": 15,
+    "Str": 12,
+    "AC": 10,
+    "MaxHP": 10,
+    "WeaponId": 1501,
+    "RewardXP": 100,
+    "Gold": 50,
+    "Image": "/images/monsters/geek.png",
+    "DeathMessage": "wins the argument and declares you stupid.",
+    "LootItems": [
+      {
+        "Id": 9007,
+        "Perc": 25
+      },
+      {
+        "Id": 9008,
+        "Perc": 75
+      }
+    ]
+  }
+]

@@ -8,10 +8,12 @@
 
   <ItemGroup>
     <Content Remove="GameEngine\Data\items.json" />
+    <Content Remove="GameEngine\Data\monsters.json" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="GameEngine\Data\items.json" />
+    <EmbeddedResource Include="GameEngine\Data\monsters.json" />
   </ItemGroup>
 
   <ItemGroup>

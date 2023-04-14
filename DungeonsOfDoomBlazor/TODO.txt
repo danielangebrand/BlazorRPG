@@ -1,9 +1,11 @@
 ﻿TODO
 MonsterCardComponent
 Inloggning och DB
-Tutorial quests
+Tutorial quests (snakes, rats, fight spiders -> boss fight stoned golem.)
+fight nerd -> dungeons of doom.
 Second map (DoD main quest)
+
 KeyReg
-Map
 Quests
 Olika attacks?
+

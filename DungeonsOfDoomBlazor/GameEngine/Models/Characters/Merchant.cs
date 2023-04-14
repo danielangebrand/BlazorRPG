@@ -2,6 +2,9 @@
 {
     public class Merchant : Character
     {
-        public int Id { get; set; }
+        public Merchant(int id, string name) : base(id, name, 10,10,10,999,999,10000,"HOW IS THIS POSSIBLE?!")
+        {
+            
+        }
     }
 }

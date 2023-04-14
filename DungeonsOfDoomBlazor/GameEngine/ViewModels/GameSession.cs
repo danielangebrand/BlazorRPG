@@ -41,22 +41,8 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
                 () => GetMonsterAtCurrentLocation(),
                 _diceService);
 
-            CurrentPlayer = new Player
-            {
-                Name = "Mojo man",
-                CharacterClass = CharacterClass.Nerd.ToString(),
-                Health = 30,
-                Damage = 10,
-                Gold = 100,
-                X = 0,
-                Y = 0,
-                Level = 1,
-                Dexterity = _diceService.Roll("6d3").Value,
-                Strength = _diceService.Roll("6d3").Value,
-                ArmorClass = 10,
-                G = Gender.Undecided,
-                DeathMessage = "Someone found you and carried you home. Your wounds have healed and you think to yourself, 'En sån här chans får man bara en gång i live´..' "
-            };
+            CurrentPlayer = new Player("Mojo Man", "Nerd", _diceService.Roll("6d3").Value, _diceService.Roll("6d3").Value, 10, 30, 0,
+             "You wake up, bruised and with your mojo hurt from the fight. Yet, you think to yourself: 'En sån här chans får man ba' en gång i live''");   ;
 
             _currentWorld = WorldFactory.CreateWorld();
 

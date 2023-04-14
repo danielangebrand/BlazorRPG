@@ -94,7 +94,7 @@
     public EventCallback<Recipe> CraftItemClicked { get; set; }
 
     [Parameter]
-    public Player Player { get; set; } = new Player();
+    public Player Player { get; set; } = Player.Empty;
 
     public void OnSelectedTabChanged(string newTab)
     {

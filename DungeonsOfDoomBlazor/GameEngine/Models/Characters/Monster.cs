@@ -5,31 +5,18 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models.Characters
 {
     public class Monster : Character
     {
-        private string _name;
-        public string Image { get; set; }
-        public int RewardExperiencePoints { get; set; }
+        public string Image { get; } = string.Empty;
+        public int RewardExperiencePoints { get; }
         public static int MonsterCounter { get; set; }
-        public override int Health
-        {
-            get => base.Health;
-            set
-            {
-                base.Health = value;
-                if (base.Health <= 0)
-                {
-                    MonsterCounter--;
-                }
-            }
-        }
-        public override string Name
-        {
-            get => IsAlive ? _name : $"the remains of a {_name}";
 
-            set { _name = value; }
-        }
-        public Monster() : base()
+        public Monster(int id, string name, string imageName,
+            int dex, int str, int ac, int maxHP, GameItem wpn, int rewardXP, int gold, string deathMessage)
+            : base(id, name, dex, str, ac, maxHP, maxHP, gold, deathMessage)
         {
             MonsterCounter++;
+            Image = imageName;
+            CurrentWeapon = wpn;
+            RewardExperiencePoints = rewardXP;
         }
     }
 }
