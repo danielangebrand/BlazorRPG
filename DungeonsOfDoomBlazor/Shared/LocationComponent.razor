@@ -1,12 +1,15 @@
-﻿<div style="border: 1px solid gainsboro; text-align: center">
-    <div>@Location.Name</div>
-    <Figure>
-        <FigureImage Source="@Location.Image" />
-        <FigureCaption>@Location.Description</FigureCaption>
-    </Figure>
-</div>
+﻿@if (Location != null)
+{
+    <div style="border: 1px solid gainsboro; text-align: center">
+        <div>@Location.Name</div>
+        <Figure>
+            <FigureImage Source="@Location.Image" />
+            <FigureCaption>@Location.Description</FigureCaption>
+        </Figure>
+    </div>
+}
 
 @code {
     [Parameter]
-    public Location Location { get; set; } = new Location();
+    public Location? Location { get; set; }
 }

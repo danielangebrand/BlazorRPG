@@ -12,7 +12,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models.Characters
         public int X { get; set; }
         public int Y { get; set; }
         public string CharacterClass { get; set; } = string.Empty;
-        public Gender G { get; set; }
+        public Gender G { get; set; } = Gender.Undecided;
         public int ExperiencePoints { get; private set; }
         private Gender SetGender(int gender)
         {

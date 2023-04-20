@@ -8,17 +8,26 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models.World
 {
     public class Location
     {
-        public IList<MonsterEncounter> MonstersHere { get; set; } = new List<MonsterEncounter>();
+        public IList<MonsterEncounter> MonstersHere { get; } = new List<MonsterEncounter>();
         public Merchant? MerchantHere { get; set; } = null;
         public bool HasMerchant => MerchantHere != null;
-        public IList<Quest> QuestsAvailableHere { get; set; } = new List<Quest>();
+        public IList<Quest> QuestsAvailableHere { get; } = new List<Quest>();
         public GameItem ItemInRoom { get; set; }
-        public int X { get; set; }
-        public int Y { get; set; }
-        public string Name { get; set; } = string.Empty;
-        public string Description { get; set; } = string.Empty;
-        public string Image { get; set; } = string.Empty;
+        public int X { get; }
+        public int Y { get; }
+        public string Name { get; } = string.Empty;
+        public string Description { get; } = string.Empty;
+        public string Image { get; } = string.Empty;
+        public Location(int x, int y, string name, string description, string image, Merchant? merchant)
+        {
+            X = x;
+            Y = y;
+            Name = name;
+            Description = description;
+            Image = image;
+            MerchantHere = merchant;
 
+        }
         public void AddMonsterEncounter(int monsterId, int chanceOfEncounter)
         {
             if (MonstersHere.Any(m => m.MonsterId == monsterId))

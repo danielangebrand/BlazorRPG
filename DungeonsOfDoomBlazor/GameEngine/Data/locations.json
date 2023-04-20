@@ -1,0 +1,93 @@
+[
+  {
+    "X": -2,
+    "Y": -1,
+    "Name": "Farmer's Field",
+    "Image": "/images/locations/FarmFields.png",
+    "Description": "There are rows of corn here, with giant rats hiding between them.",
+    "Monsters": [
+      {
+        "Id": 2,
+        "Perc": 100
+      }
+    ]
+  },
+  {
+    "X": -1,
+    "Y": -1,
+    "Name": "Farmer's House",
+    "Image": "/images/locations/Farmhouse.png",
+    "Description": "This is the house of your neighbor, Per-Olsson.",
+    "MerchantId": 102
+  },
+  {
+    "X": 0,
+    "Y": -1,
+    "Name": "Home",
+    "Image": "/images/locations/Home.png",
+    "Description": "This is your home."
+  },
+  {
+    "X": -1,
+    "Y": 0,
+    "Name": "Trading Shop",
+    "Image": "/images/locations/Trader.png",
+    "Description": "The shop of Sussie, the trader.",
+    "MerchantId": 101
+  },
+  {
+    "X": 0,
+    "Y": 0,
+    "Name": "Town Square",
+    "Image": "/images/locations/TownSquare.png",
+    "Description": "You see a fountain here."
+  },
+  {
+    "X": 1,
+    "Y": 0,
+    "Name": "Town Gate",
+    "Image": "/images/locations/TownGate.png",
+    "Description": "There is a gate here, protecting the town from unimaginable horrors. There's a rumour about a secret passage that leads to a long forgotten dungeon..'",
+    "Monsters": [
+      {
+        "Id": 4,
+        "Perc":  100
+      }
+    ]
+  },
+  {
+    "X": 2,
+    "Y": 0,
+    "Name": "Spider Forest",
+    "Image": "/images/locations/SpiderForest.png",
+    "Description": "The trees in this forest are covered with spider webs.",
+    "Monsters": [
+      {
+        "Id": 3,
+        "Perc": 100
+      }
+    ]
+  },
+  {
+    "X": 0,
+    "Y": 1,
+    "Name": "Herbalist's Hut",
+    "Image": "/images/locations/HerbalistsHut.png",
+    "Description": "You see a small hut, with legal plants drying from the roof.",
+    "MerchantId": 103,
+    "Quests": [ 1 ]
+  },
+  {
+    "X": 0,
+    "Y": 2,
+    "Name": "Herbalist's Garden",
+    "Image": "/images/locations/HerbalistsGarden.png",
+    "Description": "There are many plants here, with snakes hiding behind them.",
+    "Monsters": [
+      {
+        "Id": 1,
+        "Perc": 100
+      }
+    ]
+  }
+]

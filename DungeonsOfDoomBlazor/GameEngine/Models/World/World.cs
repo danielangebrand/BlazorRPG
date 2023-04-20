@@ -4,11 +4,11 @@
     {
         private readonly IList<Location> locations;
 
-        public World(IEnumerable<Location> locs)
+        public World(IEnumerable<Location>? locs = null)
         {
             this.locations = locs is null ? new List<Location>() : locs.ToList();
         }
-
+        internal void AddLocation(Location location) => locations.Add(location);
         public Location LocationAt(int x, int y)
         {
             var loc = locations.FirstOrDefault(r => r.X == x && r.Y == y);
