@@ -10,5 +10,6 @@
         public int? MerchantId { get; set; }
         public IEnumerable<int> Quests { get; set; } = new List<int>();
         public IEnumerable<MonsterEncounterItem> Monsters { get; set; } = new List<MonsterEncounterItem>();
+        
     }
 }

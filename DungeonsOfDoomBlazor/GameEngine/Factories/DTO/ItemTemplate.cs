@@ -11,5 +11,6 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories.DTO
         public int Price { get; set; }
         public string Damage { get; set; } = string.Empty;
         public int Heals { get; set; }
+        //public bool? MaleOnly { get; set; } = false;
     }
 }

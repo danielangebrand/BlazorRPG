@@ -29,6 +29,9 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories
                     case ItemCategory.Consumable:
                         BuildHealingItem(tmp.Id, tmp.Name, tmp.Description, tmp.Price, tmp.Heals);
                         break;
+                    //case ItemCategory.Armor:
+                    //    //BuildArmor(tmp.Id, tmp.Name, tmp.Description, tmp.Price, tmp.Heals);
+                    //    break;
                     default:
                         BuildMiscellaneousItem(tmp.Id, tmp.Name, tmp.Description, tmp.Price);
                         break;
@@ -56,7 +59,6 @@ namespace DungeonsOfDoomBlazor.GameEngine.Factories
             wpn.SetAction(new Attack(wpn, dmg));
             standardGameItems.Add(wpn);
         }
-
         public static string GetItemName(int id) => standardGameItems.FirstOrDefault(i => i.Id == id)?.Name ?? "";
     }
 }

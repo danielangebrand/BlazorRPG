@@ -24,6 +24,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models.Items
             IsUnique = isUnique;
             Category = category;
             Action = action;
+            
         }
         internal DisplayMessage PerformAction(Character actor, Character target)
         {
@@ -40,30 +41,5 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models.Items
         }
         public virtual GameItem Clone() => new GameItem(Id, Category, Name, Description, Price, IsUnique, Action);
 
-        /*
-         * METODER ATT TILLÄMPA SÅSMÅNINGOM:
-        public string ChangeName()
-        {
-            Console.WriteLine("Press any key to continue.. ");
-            Console.ReadKey(true);
-            return "Weener Sausage";
-        }
-        public void FreezeGame()
-        {
-            Console.WriteLine(Description);
-            for (int j = 60; j > -1; j--)
-            {
-                Thread.Sleep(1000);
-                Console.WriteLine(j);
-            }
-            Console.WriteLine("Press any key to continue.. ");
-            Console.ReadKey(true);
-        }
-        */
-        //public static readonly GameItem Empty = new GameItem();
-        //public bool AffectsPlayerInstance { get; set; } = false;
-        //public bool Freeze { get; set; } = false;
-        //public bool FemaleOnly { get; set; } = false;
-        //public bool MaleOnly { get; set; } = false;
     }
 }

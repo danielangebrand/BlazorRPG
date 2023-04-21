@@ -1,25 +1,31 @@
-﻿using DungeonsOfDoomBlazor.GameEngine.Models.Characters;
+﻿using DungeonsOfDoomBlazor.GameEngine.Factories.DTO;
+using DungeonsOfDoomBlazor.GameEngine.Models.Characters;
+using DungeonsOfDoomBlazor.Helpers;
 
 namespace DungeonsOfDoomBlazor.GameEngine.Factories
 {
     static class MerchantFactory
     {
-        static readonly List<Merchant> _merchant = new List<Merchant>();
+
+        const string _resourceNamespace = "DungeonsOfDoomBlazor.GameEngine.Data.merchants.json";
+        static readonly List<Merchant>  merchants = new List<Merchant>();
         
         static MerchantFactory()
         {
-            _merchant.Add(CreateMerchant(101, "Sussie"));
-            _merchant.Add(CreateMerchant(102, "Per-Olsson"));
-            _merchant.Add(CreateMerchant(103, "Snoop Dawg"));
+            IList<MerchantTemplate> merchantTemplates = JsonSerializationHelper.DeserializeResourceStream<MerchantTemplate>(_resourceNamespace);
+            foreach (var template in merchantTemplates) 
+            { 
+                var m = new Merchant(template.Id, template.Name);
+                foreach (var item in template.Inventory)
+                {
+                    for (int i = 0; i < item.Qty; i++)
+                    {
+                        m.Inventory.AddItem(ItemFactory.CreateGameItem(item.Id));
+                    }
+                }
+                merchants.Add(m);
+            }
         }
-        public static Merchant GetMerchantById(int id) => _merchant.FirstOrDefault(m => m.Id == id);
-        static Merchant CreateMerchant(int id, string name)
-        {
-            var m = new Merchant(id, name);
-            m.Inventory.AddItem(ItemFactory.CreateGameItem(1001));
-            m.Inventory.AddItem(ItemFactory.CreateGameItem(1003));
-            m.Inventory.AddItem(ItemFactory.CreateGameItem(1004));
-            return m;
-        }
+        public static Merchant GetMerchantById(int id) => merchants.FirstOrDefault(m => m.Id == id);
     }
 }

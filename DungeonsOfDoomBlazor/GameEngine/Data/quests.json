@@ -1,0 +1,40 @@
+[
+  {
+    "Id": 1,
+    "Name": "Clear the herb garden",
+    "Description": "Defeat the snakes in the Herbalist's garden",
+    "RewardGold": 25,
+    "RewardXP": 10,
+    "RewardItems": [
+      {
+        "Id": 1002,
+        "Qty": 1
+      }
+    ],
+    "Requirements": [
+      {
+        "Id": 9001,
+        "Qty": 5
+      }
+    ]
+  },
+  {
+    "Id": 2,
+    "Name": "Clear the Farmer's' Field",
+    "Description": "Defeat the rats in the Farmer's Field",
+    "RewardGold": 25,
+    "RewardXP": 10,
+    "RewardItems": [
+      {
+        "Id": 1003,
+        "Qty": 1
+      }
+    ],
+    "Requirements": [
+      {
+        "Id": 9003,
+        "Qty": 8
+      }
+    ]
+  }
+]

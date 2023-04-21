@@ -7,10 +7,22 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models.Quests
         public int Id { get; set; }
         public string Name { get; set; } = string.Empty;
         public string Description { get; set; } = string.Empty;
-        public IList<ItemQuantity> ItemsToComplete { get; set; } = Array.Empty<ItemQuantity>();
+        public IList<ItemQuantity> ItemsToComplete { get; set; } = new List<ItemQuantity>();
         public int RewardExperiencePoints { get; set; }
         public int RewardGold { get; set; }
-        public IList<ItemQuantity> RewardItems { get; set; } = Array.Empty<ItemQuantity>();
+        public IList<ItemQuantity> RewardItems { get; set; } = new List<ItemQuantity>();
+        public Quest(int id, string name, string description, int rewardGold, int rewardXP)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+            RewardGold = rewardGold;
+            RewardExperiencePoints = rewardXP;
+        }
+        public Quest()
+        {
+            
+        }
         public DisplayMessage ToDisplayMessage()
         {
             var messages = new List<string>()

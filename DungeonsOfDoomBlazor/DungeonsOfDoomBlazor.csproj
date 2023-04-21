@@ -9,13 +9,19 @@
   <ItemGroup>
     <Content Remove="GameEngine\Data\items.json" />
     <Content Remove="GameEngine\Data\locations.json" />
+    <Content Remove="GameEngine\Data\merchants.json" />
     <Content Remove="GameEngine\Data\monsters.json" />
+    <Content Remove="GameEngine\Data\quests.json" />
+    <Content Remove="GameEngine\Data\recipes.json" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="GameEngine\Data\items.json" />
     <EmbeddedResource Include="GameEngine\Data\locations.json" />
+    <EmbeddedResource Include="GameEngine\Data\merchants.json" />
     <EmbeddedResource Include="GameEngine\Data\monsters.json" />
+    <EmbeddedResource Include="GameEngine\Data\quests.json" />
+    <EmbeddedResource Include="GameEngine\Data\recipes.json" />
   </ItemGroup>
 
   <ItemGroup>

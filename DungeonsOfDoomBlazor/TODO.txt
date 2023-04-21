@@ -9,3 +9,29 @@ KeyReg
 Quests
 Olika attacks?
 
+
+        /*
+         * METODER ATT TILLÄMPA SÅSMÅNINGOM:
+        public static string ChangeName()
+        {
+            Console.WriteLine("Press any key to continue.. ");
+            Console.ReadKey(true);
+            return "Weener Sausage";
+        }
+        public void FreezeGame()
+        {
+            Console.WriteLine(Description);
+            for (int j = 60; j > -1; j--)
+            {
+                Thread.Sleep(1000);
+                Console.WriteLine(j);
+            }
+            Console.WriteLine("Press any key to continue.. ");
+            Console.ReadKey(true);
+        }
+        */
+        //public static readonly GameItem Empty = new GameItem();
+        //public bool AffectsPlayerInstance { get; set; } = false;
+        //public bool Freeze { get; set; } = false;
+        //public bool FemaleOnly { get; set; } = false;
+        //public bool MaleOnly { get; set; } = false;

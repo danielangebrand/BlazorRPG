@@ -18,7 +18,8 @@
     "Name": "Farmer's House",
     "Image": "/images/locations/Farmhouse.png",
     "Description": "This is the house of your neighbor, Per-Olsson.",
-    "MerchantId": 102
+    "MerchantId": 102,
+    "Quests": [ 2 ]
   },
   {
     "X": 0,

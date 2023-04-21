@@ -1,0 +1,48 @@
+[
+  {
+    "Id": 101,
+    "Name": "Sussie",
+    "Inventory": [
+      {
+        "Id": 1004,
+        "Qty": 1
+      },
+      {
+        "Id": 2001,
+        "Qty": 50
+      }
+    ]
+  },
+  {
+    "Id": 102,
+    "Name": "Per-Olsson",
+    "Inventory": [
+      {
+        "Id": 1001,
+        "Qty": 1
+      },
+      {
+        "Id": 1003,
+        "Qty": 1
+      },
+      {
+        "Id": 1004,
+        "Qty": 1
+      }
+    ]
+  },
+  {
+    "Id": 103,
+    "Name": "Snoop Dawg",
+    "Inventory": [
+      {
+        "Id": 2001,
+        "Qty": 100
+      },
+      {
+        "Id": 1003,
+        "Qty": 1
+      }
+    ]
+  }
+]

@@ -1,0 +1,27 @@
+[
+  {
+    "Id": 1,
+    "Name": "Snus",
+    "Description":  "Addictive!",
+    "Ingredients": [
+      {
+        "Id": 3001,
+        "Qty": 1
+      },
+      {
+        "Id": 3002,
+        "Qty": 1
+      },
+      {
+        "Id": 3003,
+        "Qty": 1
+      }
+    ],
+    "OutputItems": [
+      {
+        "Id": 2001,
+        "Qty": 1
+      }
+    ]
+  }
+]
