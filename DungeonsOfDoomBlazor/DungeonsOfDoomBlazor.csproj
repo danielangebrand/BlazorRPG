@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="GameEngine\Data\dungeons.json" />
     <Content Remove="GameEngine\Data\items.json" />
     <Content Remove="GameEngine\Data\locations.json" />
     <Content Remove="GameEngine\Data\merchants.json" />
@@ -17,6 +18,7 @@
 
   <ItemGroup>
     <EmbeddedResource Include="GameEngine\Data\items.json" />
+    <EmbeddedResource Include="GameEngine\Data\dungeons.json" />
     <EmbeddedResource Include="GameEngine\Data\locations.json" />
     <EmbeddedResource Include="GameEngine\Data\merchants.json" />
     <EmbeddedResource Include="GameEngine\Data\monsters.json" />
@@ -31,6 +33,8 @@
     <PackageReference Include="d20tek-dicenotation" Version="3.3.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.3" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.3" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.Graph" Version="5.12.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
 </Project>

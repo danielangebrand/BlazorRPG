@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using System.Text;
-using System.Text.Json;
+using Newtonsoft.Json;
+//using System.Text.Json;
 
 namespace DungeonsOfDoomBlazor.Helpers
 {
@@ -12,11 +13,12 @@ namespace DungeonsOfDoomBlazor.Helpers
             {
                 var assembly = typeof(T).GetTypeInfo().Assembly;
                 var resourceStream = assembly.GetManifestResourceStream(resourceNamespace);
-                StreamReader reader;
-                using (reader = new StreamReader(resourceStream, Encoding.UTF8))
+                //StreamReader reader;
+                using (var reader = new StreamReader(resourceStream, Encoding.UTF8))
                 {
                     var json = reader.ReadToEnd();
-                    var elements = JsonSerializer.Deserialize<IList<T>>(json);
+                    var elements = JsonConvert.DeserializeObject<List<T>>(json);
+                    //var elements = JsonSerializer.Deserialize<IList<T>>(json);
                     return elements;
                 }
             }

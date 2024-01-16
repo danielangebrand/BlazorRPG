@@ -1,6 +1,8 @@
-﻿@if (Location != null)
+﻿@*@inject IGameSession ViewModel*@
+@if (Location != null)
 {
     <div style="border: 1px solid gainsboro; text-align: center">
+        <div><b>@CurrentWorld.Name</b></div>
         <div>@Location.Name</div>
         <Figure>
             <FigureImage Source="@Location.Image" />
@@ -12,4 +14,6 @@
 @code {
     [Parameter]
     public Location? Location { get; set; }
+    [Parameter]
+    public World CurrentWorld { get; set; }
 }

@@ -36,7 +36,7 @@ namespace DungeonsOfDoomBlazor.GameEngine.Models.Characters
         public int Gold { get; private set; }
         public int Level { get; protected set; } = 1;
         public string DeathMessage { get; } = string.Empty;
-        public Inventory Inventory { get; } = new Inventory();
+        public Inventory Inventory { get; set; } = new Inventory();
         public GameItem? CurrentWeapon { get; set; }
         public bool HasCurrentWeapon => CurrentWeapon != null;
         public bool IsAlive => Health > 0;

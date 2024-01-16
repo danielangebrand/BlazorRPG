@@ -75,11 +75,34 @@
     "Str": 12,
     "AC": 10,
     "MaxHP": 10,
-    "WeaponId": 1501,
+    "WeaponId": 1504,
     "RewardXP": 100,
     "Gold": 50,
     "Image": "/images/monsters/geek.png",
     "DeathMessage": "wins the argument and declares you stupid.",
+    "LootItems": [
+      {
+        "Id": 9007,
+        "Perc": 25
+      },
+      {
+        "Id": 9008,
+        "Perc": 75
+      }
+    ]
+  },
+  {
+    "Id": 5,
+    "Name": "Stoned Golem",
+    "Dex": 5,
+    "Str": 20,
+    "AC": 15,
+    "MaxHP": 40,
+    "WeaponId": 1505,
+    "RewardXP": 100,
+    "Gold": 50,
+    "Image": "/images/monsters/golem.png",
+    "DeathMessage": "stomps you like mashed potato..",
     "LootItems": [
       {
         "Id": 9007,

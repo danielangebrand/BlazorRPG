@@ -14,7 +14,7 @@
     "Requirements": [
       {
         "Id": 9001,
-        "Qty": 5
+        "Qty": 1
       }
     ]
   },
@@ -34,6 +34,42 @@
       {
         "Id": 9003,
         "Qty": 8
+      }
+    ]
+  },
+  {
+    "Id": 3,
+    "Name": "Pay a visit to the nerd at the Gate",
+    "Description": "The Shrieking Geek at Town's Gate wants to have a little chat with you.",
+    "RewardGold": 0,
+    "RewardXP": 0,
+    "RewardItems": [
+      {
+        "Id": 9007,
+        "Qty": 1
+      }
+    ]
+  },
+  {
+    "Id": 4,
+    "Name": "Save the village from the Dungeons of Doom",
+    "Description": "The nerd asks you to save this village from the horrible creatures beneth. Oh, and he asks you to clean his underwear too..",
+    "RewardGold": 0,
+    "RewardXP": 0,
+    "RewardItems": [
+      {
+        "Id": 4001,
+        "Qty": 1
+      },
+      {
+        "Id": 2001,
+        "Qty": 10
+      }
+    ],
+    "Requirements": [
+      {
+        "Id": 9007,
+        "Qty": 1
       }
     ]
   }

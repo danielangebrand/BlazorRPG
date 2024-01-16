@@ -64,6 +64,14 @@
     "Damage": "2d4"
   },
   {
+    "Id": 1505,
+    "Category": 1,
+    "Name": "Jesus Fistus",
+    "Description": "Oh my..",
+    "Price": 0,
+    "Damage": "3d4"
+  },
+  {
     "Id": 2001,
     "Category": 2,
     "Name": "Snus",
@@ -91,6 +99,13 @@
     "Name": "Pine needles",
     "Description": "Sets the flavor.",
     "Price": 2
+  },
+  {
+    "Id": 4001,
+    "Category": "3",
+    "Name": "Map",
+    "Description": "Map of Dungeons of Doom",
+    "Price": 0
   },
   {
     "Id": 9001,

@@ -1,107 +1,165 @@
 ﻿@inject MerchantVM ViewModel
- 
+@inject IGameSession gameSession
+
 @if (ViewModel.Merchant != null)
 {
-<Row Margin="Margin.Is2.OnY">
-    <Column Class="text-center">
-        <Blazorise.Button id="show-trader-btn" Color="Color.Secondary" Margin="Margin.Is1"
-                Clicked="@modal.ShowModal" accesskey="t">
-            @ViewModel.Merchant.Name
-        </Blazorise.Button>
-    </Column>
-</Row>
- 
-<Blazorise.Modal @ref="@modal.ModalRef" id="trader-modal">
-    <ModalBackdrop id="trader-modal-backdrop" Style="z-index: 0" />
-    <Blazorise.ModalContent Centered="true" Size="ModalSize.Large">
-        <ModalHeader>
-            <ModalTitle>Trader - @ViewModel.Merchant.Name</ModalTitle>
-            <Blazorise.CloseButton id="header-close-btn" Clicked="@modal.HideModal" />
-        </ModalHeader>
-        <ModalBody>
-            <Row>
-                <Column ColumnSize="ColumnSize.Is6.OnWidescreen.Is12">
-                    <div class="text-center">Your Inventory</div>
-                    <Table Bordered="true" Narrow="true" Striped="true" Margin="Margin.Is2.OnY">
-                        <TableHeader>
-                            <TableHeaderCell>Name</TableHeaderCell>
-                            <TableHeaderCell Class="text-center">Qty</TableHeaderCell>
-                            <TableHeaderCell Class="text-center">Price</TableHeaderCell>
-                            <TableHeaderCell />
-                        </TableHeader>
-                        <TableBody>
-                        @if (ViewModel.Player != null)
-                        {
-                            foreach (var item in ViewModel.Player.Inventory.GroupedItems)
-                            {
-                            <TableRow>
-                                <TableRowCell>@item.Item.Name</TableRowCell>
-                                <TableRowCell Class="text-center">@item.Quantity</TableRowCell>
-                                <TableRowCell Class="text-center">@item.Item.Price</TableRowCell>
-                                <TableRowCell Class="text-center">
-                                    <Blazorise.Button id="sell-item-btn" Size="Size.Small" Color="Color.Secondary"
-                                            Outline="true" Clicked="() => ViewModel.OnSellItem(item.Item)">
-                                        Sell 1
-                                    </Blazorise.Button>
-                                </TableRowCell>
-                            </TableRow>
-                            }
-                        }
-                        </TableBody>
-                    </Table>
-                </Column>
-                <Column ColumnSize="ColumnSize.Is6.OnWidescreen.Is12">
-                    <div class="text-center">Trader's Inventory</div>
-                    <Table Bordered="true" Narrow="true" Striped="true" Margin="Margin.Is2.OnY">
-                        <TableHeader>
-                            <TableHeaderCell>Name</TableHeaderCell>
-                            <TableHeaderCell Class="text-center">Qty</TableHeaderCell>
-                            <TableHeaderCell Class="text-center">Price</TableHeaderCell>
-                            <TableHeaderCell />
-                        </TableHeader>
-                        <TableBody>
-                        @if (ViewModel.Merchant != null)
-                        {
-                            foreach (var item in ViewModel.Merchant.Inventory.GroupedItems)
-                            {
-                            <TableRow>
-                                <TableRowCell>@item.Item.Name</TableRowCell>
-                                <TableRowCell Class="text-center">@item.Quantity</TableRowCell>
-                                <TableRowCell Class="text-center">@item.Item.Price</TableRowCell>
-                                <TableRowCell Class="text-center">
-                                    <Blazorise.Button id="buy-item-btn" Size="Size.Small" Color="Color.Secondary"
-                                            Outline="true" Clicked="() => ViewModel.OnBuyItem(item.Item)">
-                                        Buy 1
-                                    </Blazorise.Button>
-                                </TableRowCell>
-                            </TableRow>
-                            }
-                        }
-                        </TableBody>
-                    </Table>
-                </Column>
-            </Row>
-        </ModalBody>
-        <ModalFooter>
-            <div style="margin: 0 auto">@ViewModel.ErrorMessage</div>
-            <Blazorise.Button id="footer-close-btn" Color="Color.Secondary" Clicked="@modal.HideModal">Close</Blazorise.Button>
-        </ModalFooter>
-    </Blazorise.ModalContent>
-</Blazorise.Modal>
+    <Row Margin="Margin.Is2.OnY">
+        <Column Class="text-center">
+            @if (Merchant.Id != 104 || Player.Quests.FirstOrDefault(q => q.PlayerQuest.Id == 3) != null)
+            {
+                <Blazorise.Button id="show-trader-btn" Color="Color.Secondary" Margin="Margin.Is1"
+                          Clicked="HandleClick" accesskey="t">
+                    Talk to @ViewModel.Merchant.Name
+                </Blazorise.Button>
+                @if (ReadyForDoD)
+                {
+                    <Blazorise.Button id="show-trader-btn" Color="Color.Secondary" Margin="Margin.Is1"
+                          Clicked="EnterNewWorld" accesskey="g">
+                        Dungeons of Doom
+                    </Blazorise.Button>
+                }
+            }
+        </Column>
+    </Row>
+    @if (Merchant.Id != 104)
+    {
+        <Blazorise.Modal @ref="@modal.ModalRef" id="trader-modal">
+            <ModalBackdrop id="trader-modal-backdrop" Style="z-index: 0" />
+            <Blazorise.ModalContent Centered="true" Size="ModalSize.Large">
+                <ModalHeader>
+                    <ModalTitle>NPC - @ViewModel.Merchant.Name</ModalTitle>
+                    <Blazorise.CloseButton id="header-close-btn" Clicked="@modal.HideModal" />
+                </ModalHeader>
+                <ModalBody>
+                    <Row>
+                        <Column ColumnSize="ColumnSize.Is6.OnWidescreen.Is12">
+                            <div class="text-center">Your Inventory</div>
+                            <Table Bordered="true" Narrow="true" Striped="true" Margin="Margin.Is2.OnY">
+                                <TableHeader>
+                                    <TableHeaderCell>Name</TableHeaderCell>
+                                    <TableHeaderCell Class="text-center">Qty</TableHeaderCell>
+                                    <TableHeaderCell Class="text-center">Price</TableHeaderCell>
+                                    <TableHeaderCell />
+                                </TableHeader>
+                                <TableBody>
+                                    @if (ViewModel.Player != null)
+                                    {
+                                        foreach (var item in ViewModel.Player.Inventory.GroupedItems)
+                                        {
+                                            <TableRow>
+                                                <TableRowCell>@item.Item.Name</TableRowCell>
+                                                <TableRowCell Class="text-center">@item.Quantity</TableRowCell>
+                                                <TableRowCell Class="text-center">@item.Item.Price</TableRowCell>
+                                                <TableRowCell Class="text-center">
+                                                    <Blazorise.Button id="sell-item-btn" Size="Size.Small" Color="Color.Secondary"
+                                                      Outline="true" Clicked="() => ViewModel.OnSellItem(item.Item)">
+                                                        Sell 1
+                                                    </Blazorise.Button>
+                                                </TableRowCell>
+                                            </TableRow>
+                                        }
+                                    }
+                                </TableBody>
+                            </Table>
+                        </Column>
+                        <Column ColumnSize="ColumnSize.Is6.OnWidescreen.Is12">
+                            <div class="text-center">Trader's Inventory</div>
+                            <Table Bordered="true" Narrow="true" Striped="true" Margin="Margin.Is2.OnY">
+                                <TableHeader>
+                                    <TableHeaderCell>Name</TableHeaderCell>
+                                    <TableHeaderCell Class="text-center">Qty</TableHeaderCell>
+                                    <TableHeaderCell Class="text-center">Price</TableHeaderCell>
+                                    <TableHeaderCell />
+                                </TableHeader>
+                                <TableBody>
+                                    @if (ViewModel.Merchant != null)
+                                    {
+                                        foreach (var item in ViewModel.Merchant.Inventory.GroupedItems)
+                                        {
+                                            <TableRow>
+                                                <TableRowCell>@item.Item.Name</TableRowCell>
+                                                <TableRowCell Class="text-center">@item.Quantity</TableRowCell>
+                                                <TableRowCell Class="text-center">@item.Item.Price</TableRowCell>
+                                                <TableRowCell Class="text-center">
+                                                    <Blazorise.Button id="buy-item-btn" Size="Size.Small" Color="Color.Secondary"
+                                                      Outline="true" Clicked="() => ViewModel.OnBuyItem(item.Item)">
+                                                        Buy 1
+                                                    </Blazorise.Button>
+                                                </TableRowCell>
+                                            </TableRow>
+                                        }
+                                    }
+                                </TableBody>
+                            </Table>
+                        </Column>
+                    </Row>
+                </ModalBody>
+                <ModalFooter>
+                    <div style="margin: 0 auto">@ViewModel.ErrorMessage</div>
+                    <Blazorise.Button id="footer-close-btn" Color="Color.Secondary" Clicked="@modal.HideModal">Close</Blazorise.Button>
+                </ModalFooter>
+            </Blazorise.ModalContent>
+        </Blazorise.Modal>
+    }
+    else if (Merchant.Id == 104)
+    {
+        <Blazorise.Modal @ref="@modal.ModalRef" id="trader-modal">
+            <Blazorise.ModalBackdrop id="trader-modal-backdrop" Style="z-index: 0" />
+            <Blazorise.ModalContent Centered="true" Size="ModalSize.Large">
+                <ModalHeader>
+                    <ModalTitle>@Merchant.Name</ModalTitle>
+                    <Blazorise.CloseButton id="header-close-btn" Clicked="@modal.HideModal" />
+
+                </ModalHeader>
+                <ModalBody>
+                    @if (quest is not null)
+                    {
+                        <b>
+                            @quest.Name
+                        </b>
+                        <br />
+                        <i>
+                            @quest.Description
+                        </i>
+                    }
+                </ModalBody>
+                <ModalFooter>
+                    <div style="margin: 0 auto">@ViewModel.ErrorMessage</div>
+                    <Blazorise.Button id="footer-close-btn" Color="Color.Secondary" Clicked="@EnterNewWorld">Ok</Blazorise.Button>
+                </ModalFooter>
+            </Blazorise.ModalContent>
+        </Blazorise.Modal>
+    }
 }
- 
+
 @code {
     private DungeonsOfDoomBlazor.Helpers.ModalHelper modal = new Helpers.ModalHelper();
- 
+
     [Parameter]
     public Merchant? Merchant { get; set; } = null;
- 
+
     [Parameter]
     public Player? Player { get; set; } = null;
- 
+
     [Parameter]
     public EventCallback InventoryChanged { get; set; }
- 
+    public bool ReadyForDoD { get; set; } = false;
+
+    public Quest? quest;
+
+    public void HandleClick()
+    {
+        Player.QuestsCompleted++;
+        quest = gameSession.GetMainQuest();
+        modal.ShowModal();
+    }
+
+    public void EnterNewWorld()
+    {
+        modal.HideModal();
+        gameSession.EnterNewWorld();
+        ReadyForDoD = true;
+    }
     protected override void OnParametersSet()
     {
         ViewModel.Player = Player;

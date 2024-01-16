@@ -1,0 +1,239 @@
+[
+  {
+    "X": 0,
+    "Y": -1,
+    "Name": "Entrance",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "You've ventured far to get here. This place reeks of the absence of showers and soap, yet you feel the urge to explore this place. Perhaps you're machochistic?",
+    "Quests": [ 4 ]    
+  },
+  {
+    "X": 0,
+    "Y": 0,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room..",
+    "Monsters": [
+      {
+        "Id": 3,
+        "Perc": 75
+      }
+    ]
+  },
+  {
+    "X": 1,
+    "Y": 0,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room..",
+    "Monsters": [
+      {
+        "Id": 4,
+        "Perc": 75
+      }
+    ]
+  },
+  {
+    "X": 2,
+    "Y": 0,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room.."
+  },
+  {
+    "X": 3,
+    "Y": 0,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room..",
+    "Monsters": [
+      {
+        "Id": 5,
+        "Perc": 75
+      }
+    ]
+  },
+  {
+    "X": 4,
+    "Y": 0,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room..",
+    "Monsters": [
+      {
+        "Id": 4,
+        "Perc": 75
+      }
+    ]
+  },
+  {
+    "X": 0,
+    "Y": 1,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room..",
+    "Monsters": [
+      {
+        "Id": 5,
+        "Perc": 75
+      }
+    ]
+  },
+  {
+    "X": 1,
+    "Y": 1,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room..",
+    "Monsters": [
+      {
+        "Id": 2,
+        "Perc": 75
+      }
+    ]
+  },
+  {
+    "X": 2,
+    "Y": 1,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room..",
+    "Monsters": [
+      {
+        "Id": 3,
+        "Perc": 75
+      }
+    ]
+  },
+  {
+    "X": 3,
+    "Y": 1,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room..",
+    "Monsters": [
+      {
+        "Id": 4,
+        "Perc": 75
+      }
+    ]
+  },
+  {
+    "X": 4,
+    "Y": 1,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room..",
+    "Monsters": [
+      {
+        "Id": 5,
+        "Perc": 75
+      }
+    ]
+  },
+  {
+    "X": 0,
+    "Y": 2,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room.."
+  },
+  {
+    "X": 1,
+    "Y": 2,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room.."
+  },
+  {
+    "X": 2,
+    "Y": 2,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room.."
+  },
+  {
+    "X": 3,
+    "Y": 2,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room.."
+  },
+  {
+    "X": 4,
+    "Y": 2,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room.."
+  },
+  {
+    "X": 0,
+    "Y": 3,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room.."
+  },
+  {
+    "X": 1,
+    "Y": 3,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room.."
+  },
+  {
+    "X": 2,
+    "Y": 3,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room.."
+  },
+  {
+    "X": 3,
+    "Y": 3,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room.."
+  },
+  {
+    "X": 4,
+    "Y": 3,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room.."
+  },
+  {
+    "X": 0,
+    "Y": 4,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room.."
+  },
+  {
+    "X": 1,
+    "Y": 4,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room.."
+  },
+  {
+    "X": 2,
+    "Y": 4,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room.."
+  },
+  {
+    "X": 3,
+    "Y": 4,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room.."
+  },
+  {
+    "X": 4,
+    "Y": 4,
+    "Name": "Dungeon Room",
+    "Image": "/images/locations/dungeon/empty.png",
+    "Description": "Another room.."
+  }
+]

@@ -10,13 +10,14 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
 {
     public class Movement
     {
-        private readonly World world;
+        IGameSession session;
+        private World world;
         public Location CurrentLocation { get; private set; }
         public EventCallback<Location> LocationChanged { get; set; }
         public Movement(World world)
         {
             this.world = world ?? throw new ArgumentNullException(nameof(world));
-            this.CurrentLocation = world.GetHomeLocation();
+            this.CurrentLocation = world.GetHomeLocation(world);
         }
 
         public bool CanMoveNorth =>
@@ -52,6 +53,9 @@ namespace DungeonsOfDoomBlazor.GameEngine.ViewModels
             }
         }
         public void UpdateLocation(Location newLocation) => this.CurrentLocation = newLocation;
+        public void EnterNewWorld(World w) =>
+            LocationChanged.InvokeAsync(world.GetHomeLocation(w));
+        
 
         //public async Task HandleKeyDown(KeyboardEventArgs e)
         //{

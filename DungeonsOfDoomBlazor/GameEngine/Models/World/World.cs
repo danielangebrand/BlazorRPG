@@ -1,8 +1,13 @@
-﻿namespace DungeonsOfDoomBlazor.GameEngine.Models.World
+﻿using DungeonsOfDoomBlazor.GameEngine.ViewModels;
+
+namespace DungeonsOfDoomBlazor.GameEngine.Models.World
 {
     public class World
     {
+        IGameSession ViewModel;
         private readonly IList<Location> locations;
+        public string Name { get; set; }
+
 
         public World(IEnumerable<Location>? locs = null)
         {
@@ -16,6 +21,7 @@
         }
 
         public bool HasLocationAt(int x, int y) => locations.Any(l => l.X == x && l.Y == y);
-        public Location GetHomeLocation() => this.LocationAt(0, -1);
+        public Location GetHomeLocation(World world) => world.Name == "Village" ? this.LocationAt(0, -1) : this.LocationAt(0, 0);
+        public IList<Location> GetLocations() => this.locations;
     }
 }

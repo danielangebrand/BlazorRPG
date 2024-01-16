@@ -1,0 +1,18 @@
+﻿<div>
+    @if(Player.Inventory.Items.Any(i => i.Id == 4001) && CurrentWorld.HasLocationAt(4, 4))
+    @foreach(var loc in CurrentWorld.GetLocations())
+    {
+        <img src="@loc.Image" />
+    }
+</div>
+
+@code {
+    //[Parameter]
+    //public List<Location> Locations { get; set; }
+    [Parameter]
+    public Player? Player { get; set; }
+    [Parameter]
+    public World CurrentWorld { get; set; }
+
+
+}

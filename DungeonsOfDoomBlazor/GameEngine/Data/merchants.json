@@ -44,5 +44,17 @@
         "Qty": 1
       }
     ]
+  },
+  {
+    "Id": 104,
+    "Name": "Geek",
+    "Gold": 50,
+    "Image": "/images/monsters/geek.png",
+    "Inventory": [
+      {
+        "Id": 4001,
+        "Qty": 1
+      }
+    ]
   }
 ]

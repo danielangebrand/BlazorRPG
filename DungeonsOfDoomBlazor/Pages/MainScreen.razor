@@ -1,4 +1,5 @@
 ﻿@page "/"
+@using System.Text.Json;
 @inject IGameSession ViewModel
 @inject IJSRuntime jsRuntime
 
@@ -10,8 +11,16 @@
     </Row>
     <Row Style="height: 60vh">
         <Column ColumnSize="ColumnSize.Is3.OnWidescreen.Is12" Style="background-color: aquamarine">
-            <PlayerComponent Player="@ViewModel.CurrentPlayer" />
+            @if (ViewModel.CurrentPlayer is null)
+            {
+                <PlayerComponent Player="@ViewModel.CurrentPlayer" />
+            }
+            else
+            {
+                <CreateCharacterComponent />
+            }
             <Blazorise.Button Color="Color.Secondary" Outline="true" Clicked="@ViewModel.ChangeGender">Change Gender</Blazorise.Button>
+            @*<MiniMapComponent Player="@ViewModel.CurrentPlayer" CurrentWorld="@ViewModel.CurrentWorld"/>*@
         </Column>
         <Column ColumnSize="ColumnSize.Is9.OnWidescreen.Is12" Style="background-color: beige">
             <Row Margin="Margin.Is2.OnY">
@@ -19,7 +28,7 @@
                     <DisplayMessageListView Messages="@ViewModel.Messages" />
                 </Column>
                 <Column ColumnSize="ColumnSize.Is4.OnWidescreen.Is12">
-                    <LocationComponent Location="@ViewModel.CurrentLocation" />
+                    <LocationComponent Location="@ViewModel.CurrentLocation" CurrentWorld="@ViewModel.CurrentWorld" />
                     <MonsterComponent Monster="@ViewModel.CurrentMonster" />
                     <MerchantComponent Merchant="@ViewModel.CurrentMerchant" Player="@ViewModel.CurrentPlayer"
                                        InventoryChanged="@OnInventoryChanged" />

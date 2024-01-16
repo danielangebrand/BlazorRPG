@@ -1,0 +1,80 @@
+﻿@page "/create"
+@using System.Text.Json;
+@inject NavigationManager NavigationManager
+@inject IGameSession ViewModel
+@inject IJSRuntime jsRuntime
+
+
+
+<Div>
+    <EditForm Model="@placeholder" OnSubmit="@CreatePlayer">
+        <Label>
+            Name:
+            <InputText id="name" @bind-Value="@name" />
+        </Label>
+        <Label>
+            Character class:
+            <InputSelect @bind-Value="@characterClass" DisplayName="Class:">
+                @foreach (var c in Enum.GetValues(typeof(CharacterClass)))
+                {
+                    <option value="@c">@c</option>
+                }
+            </InputSelect>
+        </Label>
+        <Label>
+            Gender:
+            <InputSelect @bind-Value="@gender" DisplayName="Choose Gender (it's 2023, you can always decide later..):">
+                @foreach (var g in Enum.GetValues(typeof(Gender)))
+                {
+                    <option value="@g">@g</option>
+                }
+            </InputSelect>
+        </Label>
+        <Label>
+
+        </Label>
+        <Div>
+            <Label For="dex">
+                Dexterity:
+                <input id="dex" type="text" readonly="readonly" @bind-value="@Dex" />
+            </Label>
+            <Label For="str">
+                Strength: 
+                <input id="str" type="text" readonly="readonly" @bind-value="@Str" />
+            </Label>
+            <button type="button" @onclick="Randomize">
+                <span class="icon">
+                    <i class="icon" src="/Images/Misc/dice.png" />
+                </span> Randomize
+            </button>
+        </Div>
+        <button type="submit">Start Game</button>
+    </EditForm>
+</Div>
+@code {
+    readonly IDiceService _diceService = DiceService.Instance;
+    string name = string.Empty;
+    CharacterClass characterClass { get; set; }
+    Player placeholder = Player.Empty;
+    int Dex = 0;
+    int Str = 0;
+    Random random = new();
+    Gender gender = Gender.Undecided;
+
+    private async Task CreatePlayer()
+    {
+        Player player = new(name, characterClass.ToString(), Dex, Str, 10, 30, 0, "You wake up, bruised and with your mojo hurt from the fight. Yet, you think to yourself: 'En sån här chans får man ba' en gång i live''");
+        player.G = gender;
+        if (!player.Inventory.Weapons.Any())
+            player.Inventory = ViewModel.GetStartingEquipment();
+        ViewModel.SetPlayer(player);
+        StateHasChanged();
+        //NavigationManager.NavigateTo("/");
+    }
+
+    void Randomize()
+    {
+        Dex = random.Next(7, 15);
+        Str = random.Next(7, 15);
+    }
+}
